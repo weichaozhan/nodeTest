@@ -55,7 +55,7 @@ function serveStatic(response, cache, absPath) {
   fs.exists(absPath, function (exists) {
     // 检查 文件是否存在
     if (exists) {
-      fs.readFile(absPath, function (err, data) {
+      fs.readFile(absPath, function(err, data) {
         if (err) {
           send404(response)
         } else {
@@ -83,6 +83,11 @@ const server = http.createServer(function(request, response) {
 
   serveStatic(response, cache, absPath)
 })
+
+// 聊天服务
+const chatServer = require('./server/clientServer')
+
+chatServer.listen(server)
 
 server.listen(3000, function () {
   console.log('Server listening on port 3000')
