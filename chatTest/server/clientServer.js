@@ -73,6 +73,43 @@ function joinRoom(socket, room) {
   }
 }
 
+/**
+ * @description 处理修改昵称
+ */
+function handleNameChangeAttempts(socket, nickName, nameUsed) {
+  // 监听 nameAttempt 事件
+  socket.on('nameAttempt', function(name) {
+    // 昵称不能以 Guest 开头
+    if (name.indexOf('Guest') === 0) {
+      socket.emit('nameResult', {
+        success: false,
+        message: '昵称不能以“Guest”开头。'
+      })
+    } else {
+      if (nameUsed.indexOf(name) === -1) {
+        let previousName = nickName[socket.id]
+        let previousNameIndex = nameUsed.indexOf(previousName)
+
+        nameUsed.push(name)
+        nickName[socket.id] = name
+        nameUsed.splice(previousNameIndex, 1)
+        socket.emit('nameResult', {
+          success: true,
+          name: name
+        })
+        socket.broadcast.to(currentRoom[socket.id].emit('message', {
+          text: `用户${previousName}修改昵称为${name}。`
+        }))
+      } else {
+        socket.emit('nameResult', {
+          success: false,
+          message: `昵称${name}已被占用`
+        })
+      }
+    }
+  })
+}
+
 exports.listen = function(server) {
   io = socketio.listen(server)
   io.set('log level', 1)
