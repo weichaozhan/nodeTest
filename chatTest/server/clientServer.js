@@ -110,6 +110,39 @@ function handleNameChangeAttempts(socket, nickName, nameUsed) {
   })
 }
 
+/**
+ * @description 发送聊天消息
+ */
+function handleMassageBroadCasting(socket) {
+  socket.on('message', function(message) {
+    socket.broadcast.to(message.room).emit('message', {
+      text: `${nickName[socket.id]}：${message.text}`
+    })
+  })
+}
+
+/**
+ * @description 创建房间
+ */
+function handleRoomJoining(socket) {
+  socket.on('join', function(room) {
+    socket.leave(currentRoom[socket.id])
+    joinRoom(socket, room.newRoom)
+  })
+}
+
+/**
+ * @用户断开连接
+ */
+function handleClientDisconnection(socket) {
+  socket.on('disconnect', function() {
+    let nameIndex = nameUsed.indexOf(nickName[socket.id])
+
+    nameUsed.splice(nameIndex, 1)
+    delete nickName[socket.id]
+  })
+}
+
 exports.listen = function(server) {
   io = socketio.listen(server)
   io.set('log level', 1)
