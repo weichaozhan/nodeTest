@@ -45,7 +45,7 @@ function joinRoom(socket, room) {
   })
 
   // 当前房间的用户
-  let usersInRoom = io.sockets.clients(room)
+  let usersInRoom = io.of('/').in(room).clients
 
   // 如果当前房间的用户不止一个，汇总用户信息
   if (usersInRoom.length > 1) {
@@ -65,7 +65,7 @@ function joinRoom(socket, room) {
     }
 
     usersRoomSummary += '。'
-
+    console.log('usersInRoom', usersRoomSummary)
     // 告知当前用户房间内其他用户的信息
     socket.emit('message', {
       text: usersRoomSummary
@@ -145,7 +145,6 @@ function handleClientDisconnection(socket) {
 
 exports.listen = function(server) {
   io = socketio.listen(server)
-  io.set('log level', 1)
   
   io.sockets.on('connection', function(socket) {
     guestNumber = assignGuestName(socket, guestNumber, nickName, nameUsed)
@@ -161,7 +160,7 @@ exports.listen = function(server) {
   
     // 处理聊天室列表获取请求
     socket.on('room', function() {
-      socket.emit('rooms', io.sockets.manager.rooms)
+      socket.emit('rooms', io.sockets.adapter.rooms)
     })
 
     // 用户断开连接处理逻辑
