@@ -1,9 +1,16 @@
+
+/**
+ * 简易聊天室
+ */
 const events = require('events')
 const net = require('net')
 const channel = new events.EventEmitter()
 
 channel.clients = {}
 channel.subscriptions = {}
+
+// 最大监听数目
+channel.setMaxListeners(5)
 
 channel.on('join', function(id, client) {
     this.clients[id] = client
