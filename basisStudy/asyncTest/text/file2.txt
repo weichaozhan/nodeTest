@@ -1,0 +1,33 @@
+HTTPS 是 HTTP 基于 TLS/SSL 的版本。在 Node.js 中，它被实现为一个独立的模块。
+
+https.Agent 类#
+中英对照
+
+新增于: v0.4.5
+HTTPS 的一个类似于 http.Agent 的代理对象。查看 https.request() 获取更多信息。
+
+https.Server 类#
+中英对照
+
+新增于: v0.3.4
+这个类是 tls.Server 的子类，跟 http.Server 一样触发事件。查看http.Server 获取更多信息。
+
+server.close([callback])#
+中英对照
+
+新增于: v0.1.90
+callback <Function>
+详见 HTTP 模块的 server.close() 方法。
+
+server.listen()#
+中英对照
+
+开启监听加密连接的HTTPS服务器。 方法与net.Server的server.listen()同。
+
+server.maxHeadersCount#
+暂不提供中文版
+
+<number> Default: 2000
+See http.Server#maxHeadersCount.
+
+server.setTimeout([msecs][, callback])
