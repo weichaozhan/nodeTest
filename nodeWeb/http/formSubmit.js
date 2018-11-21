@@ -70,9 +70,11 @@ function upload(req, res) {
     } else {
         const form  = new formidable.IncomingForm();
         
-        form.on('field', function(field, value) {
-            console.log(field, value);
-        });
+        form.uploadDir = "./file";
+        form.keepExtensions = true;
+        // form.on('field', function(field, value) {
+        //     console.log(field, value);
+        // });
         // form.on('file', function(name, file) {
         //     console.log(name, file);
         // })
@@ -83,7 +85,9 @@ function upload(req, res) {
             const percent = Math.floor(byteRecieve / byteExcepted * 100);
             console.log(percent);
         });
-        form.parse(req);
+        form.parse(req, function(err, fields, files) {
+            console.log(fields);
+        });
     }
 }
 
