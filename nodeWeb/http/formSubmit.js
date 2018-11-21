@@ -1,8 +1,15 @@
-const http = require('http');
+// const http = require('http');
+const https = require('https');
 const qs = require('querystring');
 const formidable = require('formidable');
+const fs = require('fs');
 
 const items = [];
+// https 配置
+const options = {
+    key: fs.readFileSync('./weichaozhan.pem'),
+    cert: fs.readFileSync('./weichaozhan-cert.pem'),
+};
 
 function show(res) {
     const html = `
@@ -91,7 +98,7 @@ function upload(req, res) {
     }
 }
 
-http.createServer(function(req, res) {
+https.createServer(options, function(req, res) {
     if (req.url === '/') {
         switch(req.method) {
             case 'GET': 
