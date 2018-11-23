@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/weichaozhan/nodeTest/issues"
   },
-  "homepage": "https://github.com/weichaozhan/nodeTest#readme"
+  "homepage": "https://github.com/weichaozhan/nodeTest#readme",
+  "dependencies": {
+    "redis": "^2.8.0"
+  }
 }
