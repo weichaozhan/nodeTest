@@ -14,25 +14,39 @@ const tasks = new Schema({
     project: String,
     description: String,
 });
-mongoose.model('Task', tasks);
+const Task = mongoose.model('Task', tasks);
 
 // 使用模型
-const Task = mongoose.model('Task');
-
-for (let i = 0; i < 6; i ++) {
-    const task = new Task();
-
-    task.project = `测试项目${i}`;
-    task.description = `测试描述${Date.now()}`;
-    task.save((err) => {
+(async function() {
+    for (let i = 0; i < 6; i ++) {
+        const task = new Task();
+    
+        task.project = `测试项目${i}`;
+        task.description = `测试描述${Date.now()}`;
+        await new Promise((res, rej) => {
+            task.save((err) => {
+                if (err) throw err;
+                console.log('task saved');
+                res();
+            });
+        });
+    }
+    Task.find({project: '测试项目0'}, (err, data) => {
         if (err) throw err;
-        console.log('task saved');
-    });
-}
+        
+        // 修改
+        Task.update(
+            {_id: data[data.length - 1]._id},
+            {description: '我是修改后的信息'},
+            {},
+            (err) => {
+                if (err) throw err;
+                console.log('updated');
 
-setTimeout(() => {
-    Task.find({description: '测试描述1544693672056'}, (err, data) => {
-        if (err) throw err;
-        console.log(data);
+                console.log('remove:', data[0]);
+                // 删除
+                data[0].remove();
+            }
+        )   
     })
-}, 1500)
+})();
