@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "./node_modules/.bin/eslint app/**/*.ts && ts-node-dev app/index.ts",
-    "build": "rimraf dist && tsc -p tsconfig.build.json",
+    "dev": "npm run lint && ts-node-dev app/index.ts",
+    "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
     "lint": "./node_modules/.bin/eslint --color --cache --format=node_modules/eslint-formatter-pretty app/**/*.ts"
   },
   "pre-commit": [
