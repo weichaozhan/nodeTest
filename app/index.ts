@@ -2,23 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import uuidV1 from 'uuid/v1';
 
-import test from './test';
-
-setTimeout(() => {
-  console.log('\nsecond --> ', 'test', test);
-}, 5000);
-
-async function testAsync() {
-  const value = await new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('I am res!');
-    }, 2000);
-  });
-
-  console.log('\ntest', test, 'res', value);
-}
-
-testAsync();
+import './test';
 
 const copy = () => {
   const copyFile = () => {
