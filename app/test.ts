@@ -124,3 +124,100 @@ const props: {
   }
 };
 console.log('可选链运算符', props?.a?.b?.c?.d);
+
+// 函数
+const testFunction: (x: number, y?: string, ...rest: any[]) => any = (x: number, y: string, ...rest) => {
+  console.log('rest', rest);
+  return x + y;
+};
+
+console.log('testFunction', testFunction(1, '2', 'sasdff'));
+
+// 重载
+function testOverload(x: number): number;
+function testOverload(x: string): string;
+function testOverload(x: number | string): number | string {
+  if (typeof x === 'number') {
+    return x + 1;
+  } else if (typeof x === 'string') {
+    return `${x} is string`;
+  }
+}
+
+console.log('testOverload(1)', testOverload(1));
+console.log('testOverload(\'x\')', testOverload('x'));
+
+// 泛型
+type TGenericFunc<T> = (arg: T[]) => T;
+function genericFunc<T>(test: T[]): T {
+  return test[0];
+}
+const newGenericFunc: TGenericFunc<string> = genericFunc;
+
+console.log('genericFunc', genericFunc<number>([1]), newGenericFunc(['newGenericFunc']));
+
+// 泛型约束
+interface IGenericR {
+  length: number;
+}
+type TGenericFunc2<T, K extends keyof T> = (arg: T[], K) => T;
+function genericFunc2<T extends IGenericR, K extends keyof T>(test: T[], key: K): T {
+  console.log('inner genericFunc2', test[0][key]);
+  return test[0];
+}
+
+interface IALength {
+  a: number;
+  length: number;
+}
+genericFunc2([{
+  a: 20,
+  length: 100,
+}], 'length');
+
+// 在泛型里使用类类型
+type TNewTest<T> = new () => T;
+
+const buildINewTest = <T>(Create: TNewTest<T>): T => { // create 为 T类 类型，而不是 T类 的实例
+  return new Create();
+};
+
+console.log('buildINewTest(Array)', buildINewTest(Array));
+
+// 工具类型
+interface IToolTypes {
+  prop1: number;
+  prop2: string;
+  prop3: boolean;
+  prop4: null;
+  prop5: {
+    a: number;
+  };
+}
+
+// 构造类型T，并将它所有的属性设置为可选的。它的返回类型表示输入类型的所有子类型。
+const partial: Partial<IToolTypes> = {};
+
+const testReadonly: Readonly<IToolTypes> = {
+  prop1: 1,
+  prop2: 'string',
+  prop3: true,
+  prop4: null,
+  prop5: {
+    a: 2,
+  },
+};
+
+// Record<K,T> 构造一个类型，其属性名的类型为K，属性值的类型为T。这个工具可用来将某个类型的属性映射到另一个类型上。
+type TRecordT = 'title' | 'name' | 'test';
+interface IRecordK {
+  title: string;
+  name: string;
+}
+
+const testRecord: Partial<Record<TRecordT, IRecordK>> = {
+  title: {
+    title: 'title',
+    name: 'name',
+  }
+};
