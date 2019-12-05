@@ -221,3 +221,38 @@ const testRecord: Partial<Record<TRecordT, IRecordK>> = {
     name: 'name',
   }
 };
+
+// 装饰器
+console.log('\n\n\nDecorators\n\n');
+
+// 类装饰器
+function rewriteDec<T extends new (...rest: any[]) => any>(constructor: T) {
+  return class extends constructor {
+    public name = 'newName';
+  };
+}
+@rewriteDec
+class TestDec {
+  public name: string;
+  public constructor(name: string) {
+    this.name = name;
+  }
+  @decFunc
+  public doSomething(test: string) {
+    console.log(test);
+  }
+}
+
+function decFunc(target, propName, propDescripe): any {
+  propDescripe.value = function(t) {
+    console.log(`${t} modified func`);
+  };
+}
+
+const testDec = new TestDec('I am Test Decorator');
+
+testDec.doSomething('input somthing!');
+
+console.log('TestDec',  testDec);
+
+
