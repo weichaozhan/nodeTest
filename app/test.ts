@@ -85,18 +85,42 @@ c.interval = 5.0;
 
 // 接口继承类
 class Control {
-  private pPrivate = 'string';
+  public static bbb = 'bbbb';
+  public aaa = 123;
+  protected pProtected = 'protected';
+  private pPrivate: any;
 }
-// 因为 pPrivate 是私有成员，所以只能够是Control的子类们才能实现 IExtendsInterface 接口，Control 子类可访问私有成员 
+// 因为 pPrivate 是私有成员，所以只能够是Control的子类们才能实现 IExtendsInterface 接口
 interface IExtendsInterface extends Control {
   doSomething(t?: string): void;
 }
 
-class ChildControl extends Control implements IExtendsInterface {  
-  public doSomething(t) {
-    console.log('I have a private prop');
+class ChildControl extends Control implements IExtendsInterface {
+  public doSomething(t: string) {
+    console.log('I have a private prop', this.aaa, t, this.pProtected);
   }
 }
+const childControl: IExtendsInterface = new ChildControl();
+childControl.doSomething('123');
 
-const childControl = new ChildControl();
-console.log('childControl', childControl);
+console.log('childControl', childControl, Control.bbb);
+
+// 可选链运算符
+const props: {
+  a: {
+    b: {
+      c?: {
+        d?: number | string; // 空格合并运算符
+      }
+    }
+  }
+} = {
+  a: {
+    b: {
+      c: {
+        d: 0 ?? 1,
+      }
+    }
+  }
+};
+console.log('可选链运算符', props?.a?.b?.c?.d);
