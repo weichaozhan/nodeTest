@@ -254,5 +254,3 @@ const testDec = new TestDec('I am Test Decorator');
 testDec.doSomething('input somthing!');
 
 console.log('TestDec',  testDec);
-
-
