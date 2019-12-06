@@ -135,7 +135,29 @@ const testPath = () => {
   console.log('\npath.extname', path.extname('./test/node.js'));
 };
 
-const whichone = 'testBuffer';
+/**
+ * Traversal
+ */
+const testTraversal = () => {
+  const pathStr = path.resolve('./');
+  const dir = fs.readdirSync(pathStr);
+
+  // Deep Preorder
+  // function deepTraversal(dir: string[]) {
+  //   dir.forEach(d => {
+  //     const dStr = path.join(...dir, d);
+
+  //     if (fs.statSync(dStr).isDirectory()) {
+  //       deepTraversal(fs.readdirSync(dStr));
+  //     } else {
+  //       console.log('Deep Preorder', dStr);
+  //     }
+  //   });
+  // }
+  // deepTraversal(dir);
+};
+
+const whichone = 'testTraversal';
 switch(whichone as string) {
   case 'copy':
     copy();
@@ -154,6 +176,9 @@ switch(whichone as string) {
     break;
   case 'testPath':
     testPath();
+    break;
+  case 'testTraversal':
+    testTraversal();
     break;
   default: break;
 }
