@@ -135,7 +135,7 @@ const testPath = () => {
   console.log('\npath.extname', path.extname('./test/node.js'));
 };
 
-const whichone = 'testPath';
+const whichone = 'testBuffer';
 switch(whichone as string) {
   case 'copy':
     copy();
