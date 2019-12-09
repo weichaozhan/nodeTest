@@ -11,6 +11,7 @@
 
 ### Node 生成 https 秘钥、证书
 
-**秘钥：openssl genrsa 1024 > weichaozhan.pem** 
+**秘钥：openssl genrsa 1024 > weichaozhan_priv.pem** 
+**公钥：openssl rsa -pubout -in weichaozhan_priv.pem -out weichaozhan_pub.pem**
 
 **证书：openssl req -x509 -new -key weichaozhan.pem > weichaozhan-cert.pem**
