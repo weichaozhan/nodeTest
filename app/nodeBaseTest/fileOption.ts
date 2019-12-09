@@ -141,20 +141,21 @@ const testPath = () => {
 const testTraversal = () => {
   const pathStr = path.resolve('./');
   const dir = fs.readdirSync(pathStr);
+  console.log('pathStr', pathStr);
 
   // Deep Preorder
-  // function deepTraversal(dir: string[]) {
-  //   dir.forEach(d => {
-  //     const dStr = path.join(...dir, d);
+  function deepTraversal(dir: string[], pathStr: string) {
+    dir.forEach(d => {
+      const dStr = path.join(pathStr, d);
 
-  //     if (fs.statSync(dStr).isDirectory()) {
-  //       deepTraversal(fs.readdirSync(dStr));
-  //     } else {
-  //       console.log('Deep Preorder', dStr);
-  //     }
-  //   });
-  // }
-  // deepTraversal(dir);
+      if (fs.statSync(dStr).isDirectory() && dStr.indexOf('node_modules') < 0) {
+        deepTraversal(fs.readdirSync(dStr), dStr);
+      } else {
+        console.log('Deep Preorder', dStr);
+      }
+    });
+  }
+  deepTraversal(dir, pathStr);
 };
 
 const whichone = 'testTraversal';
