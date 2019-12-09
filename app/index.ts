@@ -1,2 +1,2 @@
-// import './test';
-import './fileOption';
+// import './nodeBaseTest/test';
+import './nodeBaseTest/fileOption';
