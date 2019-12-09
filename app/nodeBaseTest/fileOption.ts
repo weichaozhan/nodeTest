@@ -158,7 +158,29 @@ const testTraversal = () => {
   deepTraversal(dir, pathStr);
 };
 
-const whichone = 'testTraversal';
+/**
+ * 文本编码
+ * 
+ * BOM用于标记一个文本文件使用Unicode编码，其本身是一个Unicode字符（"\uFEFF"），位于文本文件头部。在不同的Unicode编码下，BOM字符对应的二进制字节如下：
+ * 
+ * Bytes      Encoding
+ * ----------------------------
+ * FE FF       UTF16BE
+ * FF FE       UTF16LE
+ * EF BB BF    UTF8
+ */
+const encodeText = () => {
+  // const bin = fs.readFileSync(path.resolve('./fileSave/index.html'));
+
+  // if (bin[0] === 0xEF && bin[1] === 0xBB && bin[2] === 0xBF) {
+  //   console.log('bin', bin[0].toString(16));
+  // }
+  const ttt = fs.readFileSync(path.resolve('./fileSave/tttunicode.txt'), 'binary');
+
+  fs.writeFileSync(path.resolve('./fileSave/tttunicodeWrite.txt'), ttt, 'binary');
+};
+
+const whichone = 'encodeText';
 switch(whichone as string) {
   case 'copy':
     copy();
@@ -180,6 +202,9 @@ switch(whichone as string) {
     break;
   case 'testTraversal':
     testTraversal();
+    break;
+  case 'encodeText':
+    encodeText();
     break;
   default: break;
 }
