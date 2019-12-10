@@ -24,6 +24,7 @@
   "homepage": "https://github.com/weichaozhan/nodeTest#readme",
   "dependencies": {
     "form-data": "^3.0.0",
+    "mongodb": "^3.3.5",
     "query-string": "^6.9.0",
     "redis": "^2.8.0",
     "uuid": "^3.3.3"
