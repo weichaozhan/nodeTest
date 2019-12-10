@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run lint && ts-node-dev app/index.ts",
+    "dev": "concurrently \"npm run lint && ts-node-dev app/index.ts\" \"cd html && npm run start\"",
     "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
     "lint": "./node_modules/.bin/eslint --color --cache --format=node_modules/eslint-formatter-pretty app/**/*.ts"
   },
@@ -32,7 +32,7 @@
     "@types/node": "^12.12.11",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
-    "concurrently": "^5.0.0",
+    "concurrently": "^5.0.1",
     "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
     "eslint-config-alloy": "^3.0.0",
