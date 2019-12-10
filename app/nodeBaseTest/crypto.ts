@@ -23,9 +23,11 @@ console.log('\n\n\nhash md5 latin1', hash.digest('latin1'));
 const loadKey = (pathStr: string) => {
   return fs.readFileSync(path.resolve(pathStr));
 };
-const privKey = loadKey('./fileSave/rsa-prv.pem');
-const pubKey = loadKey('./fileSave/rsa-pub.pem');
+const privKey = loadKey('./app/nodeBaseTest/rsa-prv.pem');
+const pubKey = loadKey('./app/nodeBaseTest/rsa-pub.pem');
 const msg = 'Hello World !';
+
+console.log('\n\n\nprivKey.toString()', privKey.toString());
 
 const encMsg = crypto.privateEncrypt(privKey, Buffer.from(msg, 'utf-8'));
 console.log('\n\n\nencMsg', encMsg.toString('hex'));
