@@ -67,3 +67,25 @@ export const saveUser = async (ctx, next) => {
   ctx.body = bodyRes;
   next();
 };
+
+export const getUsersList = async (ctx, next) => {
+  let bodyRes: IAPIResponse = {
+    code: STATUS_CODE.serverErr,
+    msg: '服务器错误！',
+  };
+
+  try {
+    const usersList = await UserModel.find().exec();
+
+    bodyRes = {
+      code: STATUS_CODE.success,
+      msg: '获取用户成功！',
+      data: usersList,  
+    };
+  } catch(err) {
+    console.log(err);
+  }
+
+  ctx.body = bodyRes;
+  next();
+};
