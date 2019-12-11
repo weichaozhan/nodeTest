@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run lint && ts-node-dev app/index.ts",
+    "dev": "cross-env PORT=8089 NODE_ENV=development \"npm run lint && ts-node-dev app/index.ts\"",
     "start": "concurrently \"npm run lint && ts-node-dev app/index.ts\" \"cd html && npm run start\"",
-    "build": "rimraf dist && npm run lint && tsc -p tsconfig.build.json",
+    "build": "concurrently \"rimraf dist && npm run lint && tsc -p tsconfig.build.json\" \"cd html && npm run build\"",
     "lint": "./node_modules/.bin/eslint --color --cache --format=node_modules/eslint-formatter-pretty app/**/*.ts"
   },
   "pre-commit": [
@@ -24,10 +24,16 @@
   },
   "homepage": "https://github.com/weichaozhan/nodeTest#readme",
   "dependencies": {
+    "@types/koa": "^2.11.0",
+    "@types/koa-router": "^7.0.42",
+    "@types/mongoose": "^5.5.34",
+    "colors": "^1.4.0",
     "form-data": "^3.0.0",
     "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "mongodb": "^3.3.5",
+    "mongoose": "^5.8.0",
     "query-string": "^6.9.0",
     "redis": "^2.8.0",
     "uuid": "^3.3.3"
