@@ -5,7 +5,7 @@ import './App.css';
 import * as test from './store/actions/test';
 
 interface IDispatch {
-  dotest: Function;
+  doTestTimeout: Function;
 }
 interface IOwnProps {
   a?: string;
@@ -15,9 +15,11 @@ interface IOwnProps {
  * @description action 作为 props 绑定
  * @param {Dispatch} dispatch dispatch
  */
-const mapDispatchToProps = (dispatch: Dispatch,): IDispatch => {
+const mapDispatchToProps = (dispatch: any,): IDispatch => {
   return {
-    dotest: (str: string) => test.dotest(str),
+    doTestTimeout: (str: string) => {
+      dispatch(test.doTestTimeout(str));
+    },
   };
 };
 
@@ -34,7 +36,7 @@ const mapStateToProps = (state: any,) => {
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
 
 const App: React.FC = (props: TProps) => {
-  props.dotest('react-redux');
+  props.doTestTimeout('react-redux');
   
   return (
     <div className="App">

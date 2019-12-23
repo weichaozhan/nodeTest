@@ -12,14 +12,22 @@ import test from './reducers/test';
  * 调用链中最后一个 middleware 会接受真实的 store 的 dispatch 方法作为 next 参数，并借此结束调用链。
  * 所以，middleware 的函数签名是 ({ getState, dispatch }) => next => action。
  */
+interface IMiddlewareParams {
+  dispatch: Dispatch;
+  getState: any;
+}
+
 const createThunkMiddleWare: any = (extra: any) => {
-  return (dispatch: Dispatch, getState: any) => (next: any) => (action: any) => {
-    console.log(action);
-    if (typeof action === 'function') {
-      return action(dispatch, getState, extra);
-    }
-  
-    return next(action);
+  return (middlewarePrams: IMiddlewareParams) => {
+    const { dispatch, getState, } = middlewarePrams;
+
+    return (next: any) => (action: any) => {
+      if (typeof action === 'function') {
+        return action(dispatch, getState, extra);
+      }
+    
+      return next(action);
+    };
   }
 };
 
