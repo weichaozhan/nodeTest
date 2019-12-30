@@ -125,9 +125,7 @@ export class LinkedList {
 /**
  * Hash Table
  */
-class HashTable {
-  public table: any[];
-  
+export class HashTable {
   public static loseloseHashCode(key: string) {
     let hash = 0;
     for (let codePoint of key ) {
@@ -137,7 +135,9 @@ class HashTable {
     return hash % 37;
   }
 
-  constructor() {
+  public table: any[];
+  
+  public constructor() {
     this.table = [];
   }
 
@@ -154,7 +154,9 @@ class HashTable {
 
   public remove(key: string) {
     const position = HashTable.loseloseHashCode(key);
-    console.log(`remove item, ${key}->${this.table[position]}`)
+    
+    console.log(`remove item, ${key}->${this.table[position]}`);
+
     this.table[position] = undefined;
   }
 }
