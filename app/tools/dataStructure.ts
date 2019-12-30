@@ -1,3 +1,6 @@
+/**
+ * @description Linked List
+ */
 export class LinkNode {
   public data: any;
   public next: any;
@@ -116,5 +119,42 @@ export class LinkedList {
       }
       return current;
     }
+  }
+}
+
+/**
+ * Hash Table
+ */
+class HashTable {
+  public table: any[];
+  
+  public static loseloseHashCode(key: string) {
+    let hash = 0;
+    for (let codePoint of key ) {
+      hash += codePoint.charCodeAt(0);
+    }
+
+    return hash % 37;
+  }
+
+  constructor() {
+    this.table = [];
+  }
+
+  public put(key: string, value: any) {
+    const position = HashTable.loseloseHashCode(key);
+
+    console.log(`${position}->${value}`);
+    this.table[position] = value;
+  }
+
+  public get(key: string): string {
+    return this.table[HashTable.loseloseHashCode(key)];
+  }
+
+  public remove(key: string) {
+    const position = HashTable.loseloseHashCode(key);
+    console.log(`remove item, ${key}->${this.table[position]}`)
+    this.table[position] = undefined;
   }
 }
