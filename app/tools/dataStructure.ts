@@ -159,3 +159,131 @@ export class HashTable {
     this.table[position] = undefined;
   }
 }
+
+interface IBinaryTreeNodeKey {
+  keyValue?: number;
+  [propsName: string]: any; 
+}
+type TBinaryTreeNodeKey = IBinaryTreeNodeKey | number;
+
+class BinaryTreeNode {
+  public key: TBinaryTreeNodeKey;
+  public left: BinaryTreeNode;
+  public right: BinaryTreeNode;
+
+  public constructor(key: TBinaryTreeNodeKey) {
+    this.key = key;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+/**
+ * @description 二叉搜索树（BST）是二叉树的一种，但是它只允许你在左侧节点存储（比父节点）小的值， 在右侧节点存储（比父节点）大（或者等于）的值。
+ */
+export class BinarySearchTree {
+  public root: BinaryTreeNode;
+
+  public constructor(rootKey?: TBinaryTreeNodeKey) {
+    this.root = rootKey !== undefined ? {
+      key: rootKey,
+      left: null,
+      right: null,
+    } : null;
+  }
+
+  public insert(key: TBinaryTreeNodeKey) {
+    const newNode = new BinaryTreeNode(key);
+
+    const inserNewNode = (node: BinaryTreeNode, newNode: BinaryTreeNode) => {
+      const nodeValue = typeof node.key === 'object' ? node.key.keyValue : node.key;
+      const newNodeValue = typeof newNode.key === 'object' ? newNode.key.keyValue : newNode.key;
+
+      if (nodeValue > newNodeValue) {
+        if (node.left === null) {
+          node.left = newNode;
+        } else {
+          inserNewNode(node.left, newNode);
+        }
+      } else {
+        if (node.right === null) {
+          node.right = newNode;
+        } else {
+          inserNewNode(node.right, newNode);
+        }
+      }
+    };
+
+    if (!this.root) {
+      this.root = newNode;
+    } else {
+      inserNewNode(this.root, newNode);
+    }
+  }
+
+  /**
+   * @description 先序遍历 root -> left -> right
+   * @param callback 
+   */
+  public preOrderTraverse(callback?: Function) {
+    const preOrderTraverseNode = (node: BinaryTreeNode, callback: Function) => {
+      if (node !== null) {
+        callback(node.key);
+        preOrderTraverseNode(node.left, callback);
+        preOrderTraverseNode(node.right, callback);
+      }
+    };
+
+    preOrderTraverseNode(this.root, callback);
+  }
+
+  /**
+   * @description 中序序遍历 left -> root -> right
+   * @param callback 
+   */
+  public inOrderTraverse(callback?: Function) {
+    const inOrderTraverseNode = (node: BinaryTreeNode, callback: Function) => {
+      if (node !== null) {
+        inOrderTraverseNode(node.left, callback);
+        callback(node.key);
+        inOrderTraverseNode(node.right, callback);
+      }
+    };
+
+    inOrderTraverseNode(this.root, callback);
+  }
+
+  /**
+   * @description 后序序遍历 left -> right -> root
+   * @param callback 
+   */
+  public postOrderTraverse(callback?: Function) {
+    const postOrderTraverseNode = (node: BinaryTreeNode, callback: Function) => {
+      if (node !== null) {
+        postOrderTraverseNode(node.left, callback);
+        postOrderTraverseNode(node.right, callback);
+        callback(node.key);
+      }
+    };
+
+    postOrderTraverseNode(this.root, callback);
+  }
+}
+
+const bstTree = new BinarySearchTree();
+
+bstTree.insert(10);
+bstTree.insert(9);
+bstTree.insert(100);
+bstTree.insert(60);
+bstTree.insert(1);
+bstTree.insert(17);
+
+console.log(bstTree.root);
+
+console.log('\n先序\n');
+bstTree.preOrderTraverse(value => console.log(value));
+console.log('\n中序\n');
+bstTree.inOrderTraverse(value => console.log(value));
+console.log('\n后序\n');
+bstTree.postOrderTraverse(value => console.log(value));
