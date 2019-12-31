@@ -127,12 +127,11 @@ export class LinkedList {
  */
 export class HashTable {
   public static loseloseHashCode(key: string) {
-    let hash = 0;
-    for (let codePoint of key ) {
-      hash += codePoint.charCodeAt(0);
+    let hash = 5381;
+    for (let codePoint of key) {
+        hash = hash * 33 + codePoint.charCodeAt(0);
     }
-
-    return hash % 37;
+    return hash % 1013;
   }
 
   public table: any[];
