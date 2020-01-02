@@ -160,12 +160,13 @@ export class HashTable {
   }
 }
 
+// 二叉搜索树节点 key（为对象时）
 interface IBinaryTreeNodeKey {
   keyValue?: number;
   [propsName: string]: any; 
 }
+// // 二叉搜索树节点 key
 type TBinaryTreeNodeKey = IBinaryTreeNodeKey | number;
-
 class BinaryTreeNode {
   public key: TBinaryTreeNodeKey;
   public left: BinaryTreeNode;
@@ -177,11 +178,27 @@ class BinaryTreeNode {
     this.right = null;
   }
 }
-
 /**
  * @description 二叉搜索树（BST）是二叉树的一种，但是它只允许你在左侧节点存储（比父节点）小的值， 在右侧节点存储（比父节点）大（或者等于）的值。
  */
 export class BinarySearchTree {
+  private static findMinMaxNode = (rootNode: BinaryTreeNode, type: 'left' | 'right') => {
+    const findNode = (node: BinaryTreeNode) => {
+      let nodeNeed = node;
+
+      if (node) {
+        nodeNeed = node[type] ? findNode(node[type]) : node;
+      }
+
+      return nodeNeed;
+    };
+
+    return findNode(rootNode);
+  };
+  private static returnNodeKey = (node: BinaryTreeNode) => {
+    return typeof node.key === 'object' ? node.key.keyValue : node.key;
+  };
+
   public root: BinaryTreeNode;
 
   public constructor(rootKey?: TBinaryTreeNodeKey) {
@@ -196,8 +213,13 @@ export class BinarySearchTree {
     const newNode = new BinaryTreeNode(key);
 
     const inserNewNode = (node: BinaryTreeNode, newNode: BinaryTreeNode) => {
-      const nodeValue = typeof node.key === 'object' ? node.key.keyValue : node.key;
-      const newNodeValue = typeof newNode.key === 'object' ? newNode.key.keyValue : newNode.key;
+      const nodeValue = BinarySearchTree.returnNodeKey(node);
+      const newNodeValue = BinarySearchTree.returnNodeKey(newNode);
+
+      if (nodeValue === newNodeValue) {
+        console.log(new Error(`The key "${nodeValue}" already used!`));
+        return false;
+      }
 
       if (nodeValue > newNodeValue) {
         if (node.left === null) {
@@ -268,6 +290,41 @@ export class BinarySearchTree {
 
     postOrderTraverseNode(this.root, callback);
   }
+
+  /**
+   * @description 查找 key 最小节点
+   * @param {BinaryTreeNode} node 
+   */
+  public min(node: BinaryTreeNode) {
+    return BinarySearchTree.findMinMaxNode(node || this.root, 'left');
+  }
+
+  /**
+   * @description 查找 key 最大节点
+   * @param {BinaryTreeNode} node 
+   */
+  public max(node: BinaryTreeNode) {
+    return BinarySearchTree.findMinMaxNode(node || this.root, 'right');
+  }
+
+  public search(key: TBinaryTreeNodeKey) {
+    let result = null;
+
+    const searchNode = (node: BinaryTreeNode) => {
+      if (node) {
+        const nodeKey = BinarySearchTree.returnNodeKey(node);
+
+        if (key === nodeKey) {
+          result = node;          
+        } else {
+          key <= nodeKey ? searchNode(node.left) : searchNode(node.right);
+        }
+      }
+    };
+
+    searchNode(this.root);
+    return result;
+  }
 }
 
 const bstTree = new BinarySearchTree();
@@ -275,6 +332,7 @@ const bstTree = new BinarySearchTree();
 bstTree.insert(10);
 bstTree.insert(9);
 bstTree.insert(100);
+bstTree.insert(1);
 bstTree.insert(60);
 bstTree.insert(1);
 bstTree.insert(17);
@@ -287,3 +345,8 @@ console.log('\n中序\n');
 bstTree.inOrderTraverse(value => console.log(value));
 console.log('\n后序\n');
 bstTree.postOrderTraverse(value => console.log(value));
+
+console.log('\nmin', bstTree.min(null));
+console.log('\nmax', bstTree.max(null));
+
+console.log('\nsearch', bstTree.search(1));
