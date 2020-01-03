@@ -182,6 +182,9 @@ class BinaryTreeNode {
  * @description 二叉搜索树（BST）是二叉树的一种，但是它只允许你在左侧节点存储（比父节点）小的值， 在右侧节点存储（比父节点）大（或者等于）的值。
  */
 export class BinarySearchTree {
+  /**
+   * @description 查找最大或最小值，left 最小，right 最大
+   */
   private static findMinMaxNode = (rootNode: BinaryTreeNode, type: 'left' | 'right') => {
     const findNode = (node: BinaryTreeNode) => {
       let nodeNeed = node;
@@ -195,6 +198,9 @@ export class BinarySearchTree {
 
     return findNode(rootNode);
   };
+  /**
+   * @description 返回节点的 key
+   */
   private static returnNodeKey = (node: BinaryTreeNode) => {
     return typeof node.key === 'object' ? node.key.keyValue : node.key;
   };
@@ -250,7 +256,7 @@ export class BinarySearchTree {
   public preOrderTraverse(callback?: Function) {
     const preOrderTraverseNode = (node: BinaryTreeNode, callback: Function) => {
       if (node !== null) {
-        callback(node.key);
+        callback(node.key, node);
         preOrderTraverseNode(node.left, callback);
         preOrderTraverseNode(node.right, callback);
       }
@@ -267,7 +273,7 @@ export class BinarySearchTree {
     const inOrderTraverseNode = (node: BinaryTreeNode, callback: Function) => {
       if (node !== null) {
         inOrderTraverseNode(node.left, callback);
-        callback(node.key);
+        callback(node.key, node);
         inOrderTraverseNode(node.right, callback);
       }
     };
@@ -284,7 +290,7 @@ export class BinarySearchTree {
       if (node !== null) {
         postOrderTraverseNode(node.left, callback);
         postOrderTraverseNode(node.right, callback);
-        callback(node.key);
+        callback(node.key, node);
       }
     };
 
@@ -307,23 +313,101 @@ export class BinarySearchTree {
     return BinarySearchTree.findMinMaxNode(node || this.root, 'right');
   }
 
+  /**
+   * @description 查找指定节点
+   * @param {TBinaryTreeNodeKey} key 节点值
+   */
   public search(key: TBinaryTreeNodeKey) {
+    let parentSave = null;
+    let sideSave = '';
     let result = null;
 
-    const searchNode = (node: BinaryTreeNode) => {
+    const searchNode = (node: BinaryTreeNode, parent: BinaryTreeNode, side: string) => {
       if (node) {
         const nodeKey = BinarySearchTree.returnNodeKey(node);
 
         if (key === nodeKey) {
-          result = node;          
+          result = node;
+          parentSave = parent;
+          sideSave = side;
         } else {
-          key <= nodeKey ? searchNode(node.left) : searchNode(node.right);
+          key <= nodeKey ? searchNode(node.left, node, 'left') : searchNode(node.right, node, 'right');
         }
       }
     };
 
-    searchNode(this.root);
-    return result;
+    searchNode(this.root, null, '');
+
+    const sideSaveBool = !!sideSave;
+    return [result, parentSave, sideSaveBool ? sideSave : null];
+  }
+
+  /**
+   * @description 删除指定节点
+   * @param {TBinaryTreeNodeKey} key
+   */
+  public delete(key: TBinaryTreeNodeKey) {
+    const resultSearch = this.search(key);
+    
+    const parentNode = resultSearch[1];
+    const parentSide = resultSearch[2];
+    
+    const node = resultSearch[0];
+    if (node === null) {
+      return `Node ${key} does not exist!`;
+    } else if (parentNode === null) {
+      this.root = null;
+      return 'Delete root';
+    } else {
+      const leftChild = node.left;
+      const righrChild = node.right;
+      
+      if (leftChild === null && righrChild === null) {
+        parentNode[parentSide] = null;
+      } else {
+        let leaf = null;
+        let childTree = null;
+        let childTreeParent = null;
+        let childTreeSide = null;
+
+        if (leftChild && leftChild.right) {
+          childTree = leftChild.right;
+          childTreeParent = leftChild;
+          childTreeSide = 'right';
+        } else if (righrChild && righrChild.left) {
+          childTree = righrChild.left;
+          childTreeParent = righrChild;
+          childTreeSide = 'left';
+        }
+
+        if (childTree !== null) {  
+          const findSuitableNode = (nodeFind: BinaryTreeNode, nodeParent: BinaryTreeNode, side: 'left' | 'right') => {
+            if (nodeFind.left === null && nodeFind.right === null) {
+              const parentIsDelNode = nodeParent === node;
+              leaf = nodeFind;
+              leaf.left = leftChild;
+              leaf.right = righrChild;
+              childTreeParent && (nodeParent[side] = null);
+              parentIsDelNode && (leaf[side] = null);
+            } else {
+              if (nodeFind.right === null) {
+                findSuitableNode(nodeFind.left, nodeFind, 'left');
+              } else {
+                findSuitableNode(nodeFind.right, nodeFind, 'right');
+              }
+            }
+          };
+  
+          findSuitableNode(childTree, childTreeParent, childTreeSide);
+        }
+
+        parentNode[parentSide] = leaf;
+      }
+      return {
+        currentNode: parentNode[parentSide],
+        parentNode,
+      };
+    }
   }
 }
 
@@ -334,19 +418,17 @@ bstTree.insert(9);
 bstTree.insert(100);
 bstTree.insert(1);
 bstTree.insert(60);
-bstTree.insert(1);
 bstTree.insert(17);
+bstTree.insert(1001);
+bstTree.insert(31);
+bstTree.insert(18);
+bstTree.insert(59);
+bstTree.insert(0);
+bstTree.insert(11);
 
-console.log(bstTree.root);
-
-console.log('\n先序\n');
-bstTree.preOrderTraverse(value => console.log(value));
-console.log('\n中序\n');
 bstTree.inOrderTraverse(value => console.log(value));
-console.log('\n后序\n');
-bstTree.postOrderTraverse(value => console.log(value));
 
-console.log('\nmin', bstTree.min(null));
-console.log('\nmax', bstTree.max(null));
+console.log('\n\n', bstTree.delete(9), '\n\n');
 
-console.log('\nsearch', bstTree.search(1));
+// console.log(bstTree.search(11));
+bstTree.inOrderTraverse(value => console.log(value));
