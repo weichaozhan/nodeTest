@@ -370,11 +370,11 @@ export class BinarySearchTree {
         let childTreeParent = null;
         let childTreeSide = null;
 
-        if (leftChild && leftChild.right) {
+        if (leftChild?.right) {
           childTree = leftChild.right;
           childTreeParent = leftChild;
           childTreeSide = 'right';
-        } else if (righrChild && righrChild.left) {
+        } else if (righrChild?.left) {
           childTree = righrChild.left;
           childTreeParent = righrChild;
           childTreeSide = 'left';
