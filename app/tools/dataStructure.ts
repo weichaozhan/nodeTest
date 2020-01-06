@@ -353,56 +353,44 @@ export class BinarySearchTree {
     const parentSide = resultSearch[2];
     
     const node = resultSearch[0];
+    const leftChildTree = node.left;
+    const rightChildTree = node.right;
+
     if (node === null) {
       return `Node ${key} does not exist!`;
     } else if (parentNode === null) {
       this.root = null;
       return 'Delete root';
     } else {
-      const leftChild = node.left;
-      const righrChild = node.right;
-      
-      if (leftChild === null && righrChild === null) {
-        parentNode[parentSide] = null;
-      } else {
-        let leaf = null;
-        let childTree = null;
-        let childTreeParent = null;
-        let childTreeSide = null;
-
-        if (leftChild?.right) {
-          childTree = leftChild.right;
-          childTreeParent = leftChild;
-          childTreeSide = 'right';
-        } else if (righrChild?.left) {
-          childTree = righrChild.left;
-          childTreeParent = righrChild;
-          childTreeSide = 'left';
-        }
-
-        if (childTree !== null) {  
-          const findSuitableNode = (nodeFind: BinaryTreeNode, nodeParent: BinaryTreeNode, side: 'left' | 'right') => {
-            if (nodeFind.left === null && nodeFind.right === null) {
-              const parentIsDelNode = nodeParent === node;
-              leaf = nodeFind;
-              leaf.left = leftChild;
-              leaf.right = righrChild;
-              childTreeParent && (nodeParent[side] = null);
-              parentIsDelNode && (leaf[side] = null);
+      // 没有左子树
+      if (leftChildTree === null) {
+        parentNode[parentSide] = rightChildTree;
+      } else if (rightChildTree === null) {// 没有右子树
+        parentNode[parentSide] = leftChildTree;
+      } else {// 有左右子树
+        // 右子树没有自己的左子树
+        if (rightChildTree.left === null) {
+          parentNode[parentSide] = rightChildTree;
+          rightChildTree.left = leftChildTree;
+        } else {
+          const findLeftLeafNode = (currentNode: BinaryTreeNode, cParentNode: BinaryTreeNode, cParentSide: 'left' | 'right') => {
+            if (currentNode.left === null && currentNode.right === null) {
+              cParentNode[cParentSide] = null;
+              currentNode.left = leftChildTree;
+              currentNode.right = rightChildTree;
+              parentNode[parentSide] = currentNode;
             } else {
-              if (nodeFind.right === null) {
-                findSuitableNode(nodeFind.left, nodeFind, 'left');
+              if (currentNode.left) {
+                findLeftLeafNode(currentNode.left, cParentNode, 'left');
               } else {
-                findSuitableNode(nodeFind.right, nodeFind, 'right');
+                findLeftLeafNode(currentNode.right, cParentNode, 'right');
               }
             }
-          };
-  
-          findSuitableNode(childTree, childTreeParent, childTreeSide);
+          }
+          findLeftLeafNode(rightChildTree.left, rightChildTree, 'left');
         }
-
-        parentNode[parentSide] = leaf;
       }
+      
       return {
         currentNode: parentNode[parentSide],
         parentNode,
@@ -410,25 +398,3 @@ export class BinarySearchTree {
     }
   }
 }
-
-const bstTree = new BinarySearchTree();
-
-bstTree.insert(10);
-bstTree.insert(9);
-bstTree.insert(100);
-bstTree.insert(1);
-bstTree.insert(60);
-bstTree.insert(17);
-bstTree.insert(1001);
-bstTree.insert(31);
-bstTree.insert(18);
-bstTree.insert(59);
-bstTree.insert(0);
-bstTree.insert(11);
-
-bstTree.inOrderTraverse(value => console.log(value));
-
-console.log('\n\n', bstTree.delete(9), '\n\n');
-
-// console.log(bstTree.search(11));
-bstTree.inOrderTraverse(value => console.log(value));
