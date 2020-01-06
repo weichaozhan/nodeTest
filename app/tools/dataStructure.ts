@@ -400,12 +400,12 @@ export class BinarySearchTree {
 }
 
 
-type TGVertice = string | number;
+type TGVertice = string;
 /**
  * Graph
  */
 export class Graph {
-  public vertices: (string | number)[];
+  public vertices: TGVertice[];
   public adjList: Map<TGVertice, any[]>;
 
   public constructor() {
@@ -508,6 +508,24 @@ export class Graph {
       }
     });
   }
+
+  public dfs(v: TGVertice, callback = (key: TGVertice) => {}) {
+    const adjList = this.adjList;
+    let vsReaded = [];
+
+    const dfsVertices = (v: TGVertice) => {
+      vsReaded.push(v);
+      callback(v);
+
+      adjList.get(v).forEach(item => {
+        if (!vsReaded.includes(item)) {
+          dfsVertices(item);
+        }
+      });
+    };
+
+    dfsVertices(v);
+  }
 }
 
 const graph = new Graph();
@@ -525,6 +543,7 @@ graph.addVertex('I');
 graph.addEdge('A', 'B');
 graph.addEdge('A', 'C');
 graph.addEdge('A', 'D');
+graph.addEdge('C', 'D');
 graph.addEdge('B', 'E');
 graph.addEdge('B', 'F');
 graph.addEdge('C', 'G');
@@ -537,3 +556,5 @@ const dp = graph.bfs('A', k => console.log(k));
 
 console.log(dp);
 graph.minPath('A');
+
+graph.dfs('A', key => console.log(key));
