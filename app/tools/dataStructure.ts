@@ -444,17 +444,26 @@ export class Graph {
    * @description 深度优先遍历
    */
   public bfs(v: TGVertice, calllback = (key: TGVertice) => {}) {
+    const predecessor = {};
+    const distance = {};
+
     const adjList = this.adjList;
     const pending = [v];
     const read = [];
 
     const bfsSearch = (vertices: TGVertice[]) => {
       vertices.forEach(item => {
+        distance[item] = distance[item] || 0;
+        predecessor[item] = predecessor[item] || null;
+
         pending.shift();
         read.push(item);
 
         adjList.get(item).forEach(nItem => {
-          if (!read.includes(nItem) && !pending.includes(nItem)) {
+          if (!read.includes(nItem)) {
+            distance[nItem] = distance[item] + 1;
+            predecessor[nItem] = item;
+
             pending.push(nItem);
           }
         });
@@ -462,12 +471,42 @@ export class Graph {
         calllback(item);
         
       });
+
       if (pending.length > 0) {
         bfsSearch([...pending]);
       }
     };
 
     bfsSearch([...pending]);
+
+    return {
+      predecessor,
+      distance,
+    };
+  }
+
+  /**
+   * @description 顶点到其他顶点的最短路径
+   * @param {TGVertice} v
+   */
+  public minPath(v: TGVertice) {
+    const { distance, predecessor, } = this.bfs(v);
+    const vertices = this.vertices;
+
+    vertices.forEach(item => {
+      if (!!distance && item !== v) {
+        let preVertice = predecessor[item];
+        let path = '';
+
+        while(preVertice !== v) {
+          path = `--${preVertice}${path}`;
+          preVertice = predecessor[preVertice];
+        }
+
+        path = `${v}${path}--${item}`;
+        console.log(path);
+      }
+    });
   }
 }
 
@@ -480,6 +519,8 @@ graph.addVertex('D');
 graph.addVertex('E');
 graph.addVertex('F');
 graph.addVertex('G');
+graph.addVertex('H');
+graph.addVertex('I');
 
 graph.addEdge('A', 'B');
 graph.addEdge('A', 'C');
@@ -487,7 +528,12 @@ graph.addEdge('A', 'D');
 graph.addEdge('B', 'E');
 graph.addEdge('B', 'F');
 graph.addEdge('C', 'G');
+graph.addEdge('G', 'H');
+graph.addEdge('G', 'I');
 
 console.log(graph.toString());
 
-graph.bfs('B', k => console.log(k));
+const dp = graph.bfs('A', k => console.log(k));
+
+console.log(dp);
+graph.minPath('A');
