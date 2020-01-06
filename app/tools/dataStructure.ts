@@ -398,3 +398,96 @@ export class BinarySearchTree {
     }
   }
 }
+
+
+type TGVertice = string | number;
+/**
+ * Graph
+ */
+export class Graph {
+  public vertices: (string | number)[];
+  public adjList: Map<TGVertice, any[]>;
+
+  public constructor() {
+    this.vertices = [];
+    this.adjList = new Map();
+  }
+
+  /**
+   * @description 添加顶点
+   * @param {TGVertice} v 顶点
+   */
+  public addVertex(v: TGVertice) {
+    this.vertices.push(v);
+    this.adjList.set(v, []);
+  }
+
+  /**
+   * @description 添加边
+   * @param {TGVertice} v 路径顶点
+   * @param {TGVertice} w 路径顶点
+   */
+  public addEdge(v: TGVertice, w: TGVertice) {
+    this.adjList.get(v).push(w);
+    this.adjList.get(w).push(v);
+  }
+
+  public toString() {
+    return this.vertices.reduce((r, v) => {
+      return r + this.adjList.get(v).reduce((r, k) => {
+        return `${r} ${k}`;
+      }, `\n${v} => `);
+    }, '');
+  }
+
+  /**
+   * @description 深度优先遍历
+   */
+  public bfs(v: TGVertice, calllback = (key: TGVertice) => {}) {
+    const adjList = this.adjList;
+    const pending = [v];
+    const read = [];
+
+    const bfsSearch = (vertices: TGVertice[]) => {
+      vertices.forEach(item => {
+        pending.shift();
+        read.push(item);
+
+        adjList.get(item).forEach(nItem => {
+          if (!read.includes(nItem) && !pending.includes(nItem)) {
+            pending.push(nItem);
+          }
+        });
+
+        calllback(item);
+        
+      });
+      if (pending.length > 0) {
+        bfsSearch([...pending]);
+      }
+    };
+
+    bfsSearch([...pending]);
+  }
+}
+
+const graph = new Graph();
+
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addVertex('C');
+graph.addVertex('D');
+graph.addVertex('E');
+graph.addVertex('F');
+graph.addVertex('G');
+
+graph.addEdge('A', 'B');
+graph.addEdge('A', 'C');
+graph.addEdge('A', 'D');
+graph.addEdge('B', 'E');
+graph.addEdge('B', 'F');
+graph.addEdge('C', 'G');
+
+console.log(graph.toString());
+
+graph.bfs('B', k => console.log(k));
