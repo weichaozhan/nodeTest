@@ -386,7 +386,7 @@ export class BinarySearchTree {
                 findLeftLeafNode(currentNode.right, cParentNode, 'right');
               }
             }
-          }
+          };
           findLeftLeafNode(rightChildTree.left, rightChildTree, 'left');
         }
       }
