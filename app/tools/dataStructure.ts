@@ -317,9 +317,9 @@ export class BinarySearchTree {
    * @description 查找指定节点
    * @param {TBinaryTreeNodeKey} key 节点值
    */
-  public search(key: TBinaryTreeNodeKey) {
+  public search(key: TBinaryTreeNodeKey): [BinaryTreeNode, BinaryTreeNode, 'left' | 'right' | null] {
     let parentSave = null;
-    let sideSave = '';
+    let sideSave = null;
     let result = null;
 
     const searchNode = (node: BinaryTreeNode, parent: BinaryTreeNode, side: string) => {
@@ -336,7 +336,7 @@ export class BinarySearchTree {
       }
     };
 
-    searchNode(this.root, null, '');
+    searchNode(this.root, null, null);
 
     const sideSaveBool = !!sideSave;
     return [result, parentSave, sideSaveBool ? sideSave : null];
@@ -353,15 +353,13 @@ export class BinarySearchTree {
     const parentSide = resultSearch[2];
     
     const node = resultSearch[0];
-    const leftChildTree = node.left;
-    const rightChildTree = node.right;
 
     if (node === null) {
       return `Node ${key} does not exist!`;
-    } else if (parentNode === null) {
-      this.root = null;
-      return 'Delete root';
     } else {
+      const leftChildTree = node.left;
+      const rightChildTree = node.right;
+      
       // 没有左子树
       if (leftChildTree === null) {
         parentNode[parentSide] = rightChildTree;
@@ -378,7 +376,12 @@ export class BinarySearchTree {
               cParentNode[cParentSide] = null;
               currentNode.left = leftChildTree;
               currentNode.right = rightChildTree;
-              parentNode[parentSide] = currentNode;
+
+              if (parentNode === null) {
+                this.root = currentNode;
+              } else {
+                parentNode[parentSide] = currentNode;
+              }
             } else {
               if (currentNode.left) {
                 findLeftLeafNode(currentNode.left, cParentNode, 'left');
@@ -392,7 +395,7 @@ export class BinarySearchTree {
       }
       
       return {
-        currentNode: parentNode[parentSide],
+        currentNode: parentNode ? parentNode[parentSide] : this.root,
         parentNode,
       };
     }
@@ -527,34 +530,3 @@ export class Graph {
     dfsVertices(v);
   }
 }
-
-const graph = new Graph();
-
-graph.addVertex('A');
-graph.addVertex('B');
-graph.addVertex('C');
-graph.addVertex('D');
-graph.addVertex('E');
-graph.addVertex('F');
-graph.addVertex('G');
-graph.addVertex('H');
-graph.addVertex('I');
-
-graph.addEdge('A', 'B');
-graph.addEdge('A', 'C');
-graph.addEdge('A', 'D');
-graph.addEdge('C', 'D');
-graph.addEdge('B', 'E');
-graph.addEdge('B', 'F');
-graph.addEdge('C', 'G');
-graph.addEdge('G', 'H');
-graph.addEdge('G', 'I');
-
-console.log(graph.toString());
-
-const dp = graph.bfs('A', k => console.log(k));
-
-console.log(dp);
-graph.minPath('A');
-
-graph.dfs('A', key => console.log(key));
