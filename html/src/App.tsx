@@ -1,7 +1,9 @@
-import React from 'react';
-import { Dispatch, } from 'redux';
+import React, { useState, } from 'react';
 import { connect, } from 'react-redux';
 import './App.css';
+
+import Test from './Test';
+
 import * as test from './store/actions/test';
 
 interface IDispatch {
@@ -36,10 +38,13 @@ const mapStateToProps = (state: any,) => {
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
 
 const App: React.FC = (props: TProps) => {
-  props.doTestTimeout('react-redux');
+  const [text, setText] = useState('text');
+  // props.doTestTimeout('react-redux');
   
   return (
     <div className="App">
+      <button onClick={() => setText(`text ${Math.random()}`)} >text</button>
+      <Test text={text} />
       <header className="App-header">
         <h1>
           {props.test.subData}
