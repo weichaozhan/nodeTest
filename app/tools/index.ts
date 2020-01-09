@@ -1,7 +1,3 @@
-// export * as algorithm from './algorithm';
-export * as dataStructure from './dataStructure';
-export * as eventCustiom from './eventCustiom';
-
 export const validRequired = (params: any, required: string[]): boolean | string => {
   const lacks = [];
 
