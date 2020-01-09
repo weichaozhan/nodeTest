@@ -1,4 +1,4 @@
-export * as algorithm from './algorithm';
+// export * as algorithm from './algorithm';
 export * as dataStructure from './dataStructure';
 export * as eventCustiom from './eventCustiom';
 
