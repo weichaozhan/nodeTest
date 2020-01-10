@@ -1,4 +1,4 @@
-import React, { useState, } from 'react';
+import React, { useState, useEffect, } from 'react';
 import { connect, } from 'react-redux';
 import './App.css';
 
@@ -38,13 +38,13 @@ const mapStateToProps = (state: any,) => {
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
 
 const App: React.FC = (props: TProps) => {
-  const [text, setText] = useState('text');
-  // props.doTestTimeout('react-redux');
+  useEffect(() => {
+    props.doTestTimeout('react-redux');
+  }, []);
   
   return (
     <div className="App">
-      <button onClick={() => setText(`text ${Math.random()}`)} >text</button>
-      <Test text={text} />
+      <Test/>
       <header className="App-header">
         <h1>
           {props.test.subData}
