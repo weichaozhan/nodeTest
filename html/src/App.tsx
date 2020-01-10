@@ -1,9 +1,11 @@
-import React, { useState, useEffect, } from 'react';
+import React from 'react';
 import { connect, } from 'react-redux';
 import './App.css';
 
-import Test from './Test';
+import TestMobx from './components/test/TestMobx';
+import Test from './components/test/Test';
 
+import store from './mobx/test';
 import * as test from './store/actions/test';
 
 interface IDispatch {
@@ -36,20 +38,18 @@ const mapStateToProps = (state: any,) => {
 };
 
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
-
-const App: React.FC = (props: TProps) => {
-  useEffect(() => {
-    props.doTestTimeout('react-redux');
-  }, []);
-  
+const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
+      <button onClick={() => props.doTestTimeout('react-redux')} >react-redux</button>
       <Test/>
       <header className="App-header">
         <h1>
           {props.test.subData}
         </h1>
       </header>
+
+      <TestMobx store={store} />
     </div>
   );
 }
