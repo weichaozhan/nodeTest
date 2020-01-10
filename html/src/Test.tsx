@@ -11,18 +11,21 @@ interface IAction {
   payload?: IState;
 }
 
-function Child() {
+function OriginChild() {
   const value = useContext(CountContext);
   
   return <div>
+    {console.log('render Child')}
     Child: {value.count}
   </div>
 }
+const Child = React.memo(OriginChild);
 
 function Child2() {
   const value = useContext(CountContext);
 
   return <h2>
+    {console.log('render Child2')}
     Child2: {value.count}
   </h2>;
 }

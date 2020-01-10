@@ -239,12 +239,15 @@ class TestDec {
   }
   @decFunc
   public doSomething(test: string) {
-    console.log(test);
+    console.log(`${test} origin func`);
   }
 }
 
 function decFunc(target, propName, propDescripe): any {
+  const origin = propDescripe.value;
   propDescripe.value = function(t) {
+    console.log('origin', origin);
+    origin(t);
     console.log(`${t} modified func`);
   };
 }
