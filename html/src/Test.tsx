@@ -71,8 +71,7 @@ function usePublicCount() {
 
   return { state, dispatch, };
 }
-function Test(props: IProps) {
-  const { text, } = props;
+function Test() {
   const [btnTxt, setBtnTxt] = useState(1);
   const { state, dispatch, } = usePublicCount();
 
@@ -81,10 +80,9 @@ function Test(props: IProps) {
   }, []);
 
   return <div>
-    <button onClick={() => setBtnTxt(Math.random())} >{btnTxt}</button>
-    <h1>
-      text: {text}
-    </h1>
+    <div>
+      <button onClick={() => setBtnTxt(Math.random())} >{btnTxt}</button>
+    </div>
 
     <button onClick={() => dispatch({
       type: 'asc'
