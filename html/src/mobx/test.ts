@@ -1,4 +1,4 @@
-import { observable, computed, autorun, } from 'mobx';
+import { observable, autorun, } from 'mobx';
 
 class Todo {
   public id = Math.random();

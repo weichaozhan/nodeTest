@@ -1,7 +1,7 @@
 import React, { Component, } from 'react';
 import { observer, } from 'mobx-react';
 
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 
 @observer
 class TestMobx extends Component<any, any> {
@@ -11,7 +11,7 @@ class TestMobx extends Component<any, any> {
   }
 
   render() {
-    return <div>
+    return <div className={styles['test-mobx']} >
       test mobx
     </div>;
   }
