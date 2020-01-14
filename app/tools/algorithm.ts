@@ -174,17 +174,72 @@ export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
 export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrderParam): any => {
   const arraySort = [...array];
   const keySortExits = ![undefined, null].includes(keySort);
+
+  if (arraySort.length > 1) {
+    const quick = (left: number, right: number) => {
+      let midIndex = Math.ceil((left + right)/2);
+      const midItem = keySortExits ? arraySort[midIndex][keySort] : arraySort[midIndex];
+      let il = left;
+      let ir = right;
+      
+      while (il < ir) {
+        const valueLeft = keySortExits ? arraySort[il][keySort] : arraySort[il];
+        const valueRight = keySortExits ? arraySort[ir][keySort] : arraySort[ir];
+        const condition = {
+          asc: {
+            exchange: valueLeft >= midItem && valueRight <= midItem,
+            ilCompare: valueLeft <= midItem,
+            irCompare: valueRight >= midItem,
+          },
+          desc: {
+            exchange: valueLeft <= midItem && valueRight >= midItem,
+            ilCompare: valueLeft >= midItem,
+            irCompare: valueRight <= midItem,
+          },
+        };
+        
+        if (condition[orderDir].exchange) {
+          const auk = arraySort[il];
+          arraySort[il] = arraySort[ir];
+          arraySort[ir] = auk;
+
+          if (il === midIndex) {
+            midIndex = ir;
+            ir = midIndex + 1;
+          }
+          if (ir === midIndex) {
+            midIndex = il;
+            il = midIndex - 1;
+          }
+        }
+        
+        if (condition[orderDir].ilCompare) {
+          il++;
+        }
+        if (condition[orderDir].irCompare) {
+          ir--;
+        }
+      }
+      if (right - left > 1) {
+        quick(left, midIndex);
+        quick(midIndex, right);
+      }
+    };
+
+    quick(0, arraySort.length - 1);
+  }
+  return arraySort;
 };
 
 const dir: TSortDir = 'desc';
-const array = [1,22,31,664,85,86,17,98,89];
-// const array [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
-//   keyValue: item,
-//   name: index,
-// }));
+// const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31];
+const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
+  keyValue: item,
+  name: index,
+}));
 
-console.log(dir, mergeSort({
+console.log(dir, quickSort({
   array,
-  // keySort: 'keyValue',
+  keySort: 'keyValue',
   orderDir: dir,
 }));
