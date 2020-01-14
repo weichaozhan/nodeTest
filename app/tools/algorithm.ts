@@ -110,14 +110,80 @@ export const insertSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOr
   return arraySort;
 };
 
-const dir: TSortDir = 'desc';
+/**
+ * @description merge sort
+ * @param array 要排序的数组
+ * @param keySort 用于排序的字段
+ * @param orderDir 升序 'asc'，降序 'desc'
+ */
+export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrderParam): any[] => {
+  const arraySort = [...array];
+  const keySortExits = ![undefined, null].includes(keySort);
+  
+  const merge = (left: any[], right: any[]) => {
+    const result: any[] = [];
+    let indexLeft = 0;
+    let indexRight = 0;
+    
+    while (indexLeft < left.length && indexRight < right.length) {
+      const valueLeft = keySortExits ? left[indexLeft][keySort] : left[indexLeft];
+      const valueRight = keySortExits ? right[indexRight][keySort] : right[indexRight];
+      const condition = {
+        asc: valueLeft <= valueRight,
+        desc: valueLeft >= valueRight
+      };
+      
+      if (condition[orderDir]) {
+        result.push(left[indexLeft++]);
+      } else {
+        result.push(right[indexRight++]);
+      }
+    }
+    
+    while (indexLeft < left.length) {
+      result.push(left[indexLeft++]);
+    }
+    while (indexRight < right.length) {
+      result.push(right[indexRight++]);
+    }
+    
+    return result;
+  }
+  const splitArray = (arraySplit: any[]) => {
+    if (arraySplit.length > 1) {
+      const mid = Math.floor(arraySplit.length/2);
+      const left = arraySplit.slice(0, mid);
+      const right = arraySplit.slice(mid);
+      
+      return merge(splitArray(left), splitArray(right));
+    } else {
+      return arraySplit;
+    }
+  }
+  
 
-console.log(dir, insertSort({
-  // array: [1,22,31,664,85,86,17,98,89],
-  array: [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
-    keyValue: item,
-    name: index,
-  })),
-  keySort: 'keyValue',
+  return splitArray(arraySort);
+}
+
+/**
+ * @description quickly sort
+ * @param array 要排序的数组
+ * @param keySort 用于排序的字段
+ * @param orderDir 升序 'asc'，降序 'desc'
+ */
+export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrderParam): any => {
+  const arraySort = [...array];
+  const keySortExits = ![undefined, null].includes(keySort);
+}
+
+const dir: TSortDir = 'desc';
+const array = true ? [1,22,31,664,85,86,17,98,89] : [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
+  keyValue: item,
+  name: index,
+}));
+
+console.log(dir, mergeSort({
+  array,
+  // keySort: 'keyValue',
   orderDir: dir,
 }));
