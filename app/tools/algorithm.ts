@@ -148,7 +148,7 @@ export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
     }
     
     return result;
-  }
+  };
   const splitArray = (arraySplit: any[]) => {
     if (arraySplit.length > 1) {
       const mid = Math.floor(arraySplit.length/2);
@@ -159,11 +159,11 @@ export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
     } else {
       return arraySplit;
     }
-  }
+  };
   
 
   return splitArray(arraySort);
-}
+};
 
 /**
  * @description quickly sort
@@ -174,13 +174,14 @@ export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
 export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrderParam): any => {
   const arraySort = [...array];
   const keySortExits = ![undefined, null].includes(keySort);
-}
+};
 
 const dir: TSortDir = 'desc';
-const array = true ? [1,22,31,664,85,86,17,98,89] : [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
-  keyValue: item,
-  name: index,
-}));
+const array = [1,22,31,664,85,86,17,98,89];
+// const array [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
+//   keyValue: item,
+//   name: index,
+// }));
 
 console.log(dir, mergeSort({
   array,
