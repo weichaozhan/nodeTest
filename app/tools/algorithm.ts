@@ -254,7 +254,7 @@ interface ISearchArray {
  * @param target 要查找的值
  */
 export const searchSNArrayLinear = ({ array, target, }: ISearchArray): ISearchResult | undefined => {
-  let result: ISearchResult | undefined = undefined;
+  let result: ISearchResult | undefined;
   
   for (let i = 0; i < array.length; i++) {
     if (array[i] === target) {
@@ -274,7 +274,7 @@ export const searchSNArrayLinear = ({ array, target, }: ISearchArray): ISearchRe
  * @param target 要查找的值
  */
 export const searchSNArrayBinaryRandom = ({ array, target, }: ISearchArray): ISearchResult | undefined => {
-  let result: ISearchResult | undefined = undefined;
+  let result: ISearchResult | undefined;
 
   const searchBinary = (start: number, end: number) => {
     const mid = Math.ceil((start + end) / 2);
@@ -292,7 +292,7 @@ export const searchSNArrayBinaryRandom = ({ array, target, }: ISearchArray): ISe
     if (!result && (mid - 1 - start) > 0) {
       searchBinary(start, mid - 1);
     }
-  }
+  };
 
   searchBinary(0, array.length - 1);
   return result;
@@ -303,8 +303,8 @@ export const searchSNArrayBinaryRandom = ({ array, target, }: ISearchArray): ISe
  * @param array 要排序的数组
  * @param target 要查找的值
  */
-export const searchSNArrayBinaryOrderly = ({ array, target, orderDir, }: Required<ISearchArray>): ISearchResult | undefined => {
-  let result: ISearchResult | undefined = undefined;
+export const searchSNArrayBinaryOrderly = ({ array, target, orderDir = 'asc', }: Required<ISearchArray>): ISearchResult | undefined => {
+  let result: ISearchResult | undefined;
 
   const searchBinary = (start: number, end: number) => {
     const mid = Math.ceil((start + end) / 2);
@@ -329,14 +329,14 @@ export const searchSNArrayBinaryOrderly = ({ array, target, orderDir, }: Require
         searchBinary(start, mid - 1);
       }
     }
-  }
+  };
 
   searchBinary(0, array.length - 1);
   return result;
 };
 
 // const arraySearch = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
-const arraySearch = [1,1,2,2,3,4,5,6,7,8,9,10,11,12,44,55,66]
+const arraySearch = [1,1,2,2,3,4,5,6,7,8,9,10,11,12,44,55,66];
 console.log(searchSNArrayBinaryOrderly({
   array: arraySearch,
   target: 66,
