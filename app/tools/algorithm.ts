@@ -177,9 +177,9 @@ export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
 
   if (arraySort.length > 1) {
     const quick = (left: number, right: number) => {
-      let midIndex = Math.ceil((left + right)/2);
-      const midItem = keySortExits ? arraySort[midIndex][keySort] : arraySort[midIndex];
-      let il = left;
+      let baseIndex = left;
+      const baseValue = keySortExits ? arraySort[baseIndex][keySort] : arraySort[baseIndex];
+      let il = left + 1;
       let ir = right;
       
       while (il < ir) {
@@ -187,14 +187,14 @@ export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
         const valueRight = keySortExits ? arraySort[ir][keySort] : arraySort[ir];
         const condition = {
           asc: {
-            exchange: valueLeft >= midItem && valueRight <= midItem,
-            ilCompare: valueLeft <= midItem,
-            irCompare: valueRight >= midItem,
+            exchange: valueLeft >= baseValue && valueRight <= baseValue,
+            ilCompare: valueLeft <= baseValue,
+            irCompare: valueRight >= baseValue,
           },
           desc: {
-            exchange: valueLeft <= midItem && valueRight >= midItem,
-            ilCompare: valueLeft >= midItem,
-            irCompare: valueRight <= midItem,
+            exchange: valueLeft <= baseValue && valueRight >= baseValue,
+            ilCompare: valueLeft >= baseValue,
+            irCompare: valueRight <= baseValue,
           },
         };
         
@@ -202,15 +202,6 @@ export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
           const auk = arraySort[il];
           arraySort[il] = arraySort[ir];
           arraySort[ir] = auk;
-
-          if (il === midIndex) {
-            midIndex = ir;
-            ir = midIndex + 1;
-          }
-          if (ir === midIndex) {
-            midIndex = il;
-            il = midIndex - 1;
-          }
         }
         
         if (condition[orderDir].ilCompare) {
@@ -220,18 +211,36 @@ export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
           ir--;
         }
       }
-      if (right - left > 1) {
-        quick(left, midIndex);
-        quick(midIndex, right);
+
+      let transIndex = ir;
+      const transValue = keySortExits ? arraySort[transIndex][keySort] : arraySort[transIndex];
+      const transCondition = {
+        asc: transValue > baseValue,
+        desc: transValue < baseValue, 
+      };
+      if (transCondition[orderDir]) {
+        transIndex = ir - 1;
+      }
+      let trans = arraySort[transIndex];
+      arraySort[transIndex] = arraySort[baseIndex];
+      arraySort[baseIndex] = trans;
+      
+      if (transIndex - baseIndex > 1) {
+        quick(baseIndex, transIndex);
+      }
+      if (right - (transIndex + 1) > 1) {
+        quick(transIndex + 1, right);
       }
     };
 
     quick(0, arraySort.length - 1);
   }
+  
   return arraySort;
 };
 
-const dir: TSortDir = 'desc';
+const dir: TSortDir = 'asc';
+// const array = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
 // const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31];
 const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
   keyValue: item,
