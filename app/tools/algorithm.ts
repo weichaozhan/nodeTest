@@ -239,16 +239,122 @@ export const quickSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
   return arraySort;
 };
 
-const dir: TSortDir = 'asc';
-// const array = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
-// const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31];
-const array = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
-  keyValue: item,
-  name: index,
+interface ISearchResult {
+  index: number;
+  value: number | string | undefined | null | boolean;
+}
+interface ISearchArray {
+  array: (string | number | undefined)[],
+  target: string | number,
+  orderDir?: 'asc' | 'desc',
+}
+/**
+ * @description 线性查找
+ * @param array 要排序的数组
+ * @param target 要查找的值
+ */
+export const searchSNArrayLinear = ({ array, target, }: ISearchArray): ISearchResult | undefined => {
+  let result: ISearchResult | undefined = undefined;
+  
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === target) {
+      result = {
+        index: i,
+        value: array[i],
+      };
+      break;
+    }
+  }
+  return result;
+};
+
+/**
+ * @description 二分查找(无序)
+ * @param array 要排序的数组
+ * @param target 要查找的值
+ */
+export const searchSNArrayBinaryRandom = ({ array, target, }: ISearchArray): ISearchResult | undefined => {
+  let result: ISearchResult | undefined = undefined;
+
+  const searchBinary = (start: number, end: number) => {
+    const mid = Math.ceil((start + end) / 2);
+
+    for (let i = mid; i < (end + 1); i++) {
+      if (array[i] === target) {
+        result = {
+          index: i,
+          value: array[i],
+        };
+        break;
+      }
+    }
+    
+    if (!result && (mid - 1 - start) > 0) {
+      searchBinary(start, mid - 1);
+    }
+  }
+
+  searchBinary(0, array.length - 1);
+  return result;
+};
+
+/**
+ * @description 二分查找(有序)
+ * @param array 要排序的数组
+ * @param target 要查找的值
+ */
+export const searchSNArrayBinaryOrderly = ({ array, target, orderDir, }: Required<ISearchArray>): ISearchResult | undefined => {
+  let result: ISearchResult | undefined = undefined;
+
+  const searchBinary = (start: number, end: number) => {
+    const mid = Math.ceil((start + end) / 2);
+    const midValue = array[mid];
+
+    if (midValue === target) {
+      result = {
+        index: mid,
+        value: midValue,
+      };
+    }
+    
+    if (!result) {
+      const condition = {
+        asc: midValue < target,
+        desc: midValue > target,
+      };
+      
+      if (condition[orderDir]) {
+        searchBinary(mid, end);
+      } else {
+        searchBinary(start, mid - 1);
+      }
+    }
+  }
+
+  searchBinary(0, array.length - 1);
+  return result;
+};
+
+// const arraySearch = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
+const arraySearch = [1,1,2,2,3,4,5,6,7,8,9,10,11,12,44,55,66]
+console.log(searchSNArrayBinaryOrderly({
+  array: arraySearch,
+  target: 66,
+  orderDir: 'asc',
 }));
 
-console.log(dir, quickSort({
-  array,
-  keySort: 'keyValue',
-  orderDir: dir,
-}));
+
+
+// const dir: TSortDir = 'asc';
+// // const arraySort = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
+// // const arraySort = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31];
+// const arraySort = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
+//   keyValue: item,
+//   name: index,
+// }));
+
+// console.log(dir, quickSort({
+//   array: arraySort,
+//   keySort: 'keyValue',
+//   orderDir: dir,
+// }));
