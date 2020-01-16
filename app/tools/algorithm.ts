@@ -335,6 +335,38 @@ export const searchSNArrayBinaryOrderly = ({ array, target, orderDir = 'asc', }:
   return result;
 };
 
+export const findFibonacci = (num: number): number => {
+  let fibonacci = 1;
+  
+  if (num !== 1 && num !== 2) {
+    if (num === 0) {
+      fibonacci = 0;
+    } else {
+      fibonacci = findFibonacci(num - 1) + findFibonacci(num - 2);
+    }
+  }
+
+  return fibonacci;
+};
+
+const pow = (a: number, b: number) => {
+  let na = a;
+  let nb = b;
+  let res = 1;
+  
+  while (nb > 0) {
+    if (nb & 1) {
+      res = res * na;
+    }
+    na *= na;
+    nb >>= 1;
+  }
+
+  return res;
+};
+
+console.log(pow(2, 13));
+
 // const arraySearch = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
 const arraySearch = [1,1,2,2,3,4,5,6,7,8,9,10,11,12,44,55,66];
 console.log(searchSNArrayBinaryOrderly({
@@ -342,8 +374,6 @@ console.log(searchSNArrayBinaryOrderly({
   target: 66,
   orderDir: 'asc',
 }));
-
-
 
 // const dir: TSortDir = 'asc';
 // // const arraySort = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
