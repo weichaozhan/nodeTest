@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import { observer, } from 'mobx-react';
 
 import 'react-virtualized/styles.css';
-import { WindowScroller, List, AutoSizer, } from 'react-virtualized';
+import { List, AutoSizer, } from 'react-virtualized';
 
 import styles from './index.module.scss';
 

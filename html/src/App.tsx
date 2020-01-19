@@ -1,9 +1,13 @@
 import React from 'react';
 import { connect, } from 'react-redux';
+import 'antd/dist/antd.css';
+
+import './styles/index.modules.scss';
 import './App.css';
 
 import TestMobx from './components/test/TestMobx';
 import Test from './components/test/Test';
+import TestDB from './components/test/TestDB';
 
 import store from './mobx/test';
 import * as test from './store/actions/test';
@@ -41,6 +45,8 @@ type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typ
 const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
+      <TestDB/>
+
       <button onClick={() => props.doTestTimeout('react-redux')} >react-redux</button>
       <Test/>
       <header className="App-header">
