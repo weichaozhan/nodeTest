@@ -339,21 +339,30 @@ export const findFibonacci = (num: number): number => {
   let fibonacci = 1;
   
   if (num !== 1 && num !== 2) {
-    if (num === 0) {
-      fibonacci = 0;
-    } else {
-      fibonacci = findFibonacci(num - 1) + findFibonacci(num - 2);
+    let f0 = 1;
+    let f1 = 1;
+    
+    for (let i = 2; i < num; i++) {
+      fibonacci = f0 + f1;
+
+      f0 = f1;
+      f1 = fibonacci;
     }
   }
 
   return fibonacci;
 };
 
+/**
+ * @description 快速幂
+ * @param a 底数
+ * @param b 指数
+ */
 const pow = (a: number, b: number) => {
   let na = a;
   let nb = b;
   let res = 1;
-  
+
   while (nb > 0) {
     if (nb & 1) {
       res = res * na;
@@ -365,26 +374,26 @@ const pow = (a: number, b: number) => {
   return res;
 };
 
-console.log(pow(2, 13));
+/**
+ * @description 二分幂
+ * @param a 底数
+ * @param b 指数
+ */
+const powBinary = (a: number, b: number): number => {
+  let ans: number;
 
-// const arraySearch = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
-const arraySearch = [1,1,2,2,3,4,5,6,7,8,9,10,11,12,44,55,66];
-console.log(searchSNArrayBinaryOrderly({
-  array: arraySearch,
-  target: 66,
-  orderDir: 'asc',
-}));
+  if (b === 0) {
+    ans = 1;
+  } else if (b === 1) {
+    ans = a;
+  } else {
+    let nb = b % 2 ? b - 1 : b;
 
-// const dir: TSortDir = 'asc';
-// // const arraySort = [5,8,5,2,22,1,22,100,89,126,326,4,59,8,4,62,30,45,7];
-// // const arraySort = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31];
-// const arraySort = [5,8,5,2,22,1,22,1,31,1, 31,664,86,17,98,89, 1, 89,1, 89, 20, 22, 22, 31, 31].map((item, index) => ({
-//   keyValue: item,
-//   name: index,
-// }));
-
-// console.log(dir, quickSort({
-//   array: arraySort,
-//   keySort: 'keyValue',
-//   orderDir: dir,
-// }));
+    ans = powBinary(a, nb/2);
+    ans *= ans;
+    if (b % 2) {
+      ans *= a;
+    }
+  }
+  return ans;
+};
