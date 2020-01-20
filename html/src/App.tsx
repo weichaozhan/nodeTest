@@ -44,7 +44,7 @@ const mapStateToProps = (state: any,) => {
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
 const App: React.FC = (props: TProps) => {  
   return (
-    <div className="App">
+    <div className="App">      
       <TestDB/>
 
       <button onClick={() => props.doTestTimeout('react-redux')} >react-redux</button>

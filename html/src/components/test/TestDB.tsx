@@ -179,11 +179,13 @@ function TestDB () {
       <Button type="primary" onClick={() => {
         const result = window.prompt('请输入 name ！');
 
-        add(db.current as IDBDatabase, 'Person', {
-          id: Date.now(),
-          name: result,
-          test: `${Date.now()}_${result}`,
-        });
+        if (result) {
+          add(db.current as IDBDatabase, 'Person', {
+            id: Date.now(),
+            name: result,
+            test: `${Date.now()}_${result}`,
+          });
+        }
       }} >新增</Button>
       <Button className="ml10" onClick={() => {
         getAll(db.current as IDBDatabase, 'Person', (value: any[]) => console.log(value));
