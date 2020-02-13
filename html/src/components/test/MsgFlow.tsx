@@ -1,6 +1,6 @@
 /**
  * @description msg flow
- * @author 詹伟超
+ * @author weichaozhan
  */
 
 import React, { Component, } from 'react';
@@ -10,7 +10,7 @@ import MsgFlowItem, { IItem, } from './MsgFlowItem';
 import styles from './msgFlow.module.scss';
 
 interface IMsgFlowProps {
-  items: IItem[];
+  items: IItem[]; // msg data list
   className?: string;
   style?: React.CSSProperties;
 }
