@@ -14,7 +14,7 @@ export interface IItem {
   content: string | React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
-  itemAlign?: 'left' | 'right' | 'center';
+  itemAlign?: 'left' | 'right' | 'center'; // msg position
   headSrc?: string;
 }
 
@@ -73,11 +73,11 @@ class MsgFlowItem extends Component<IItem> {
     
     return <div className={cNames(styles['wrapper--msgFlowItem'], {
       [styles['tal-l']]: itemAlign === 'left',
-      [styles['tal-c']]: itemAlign === 'center' || type === CONTENT_TYPE.systemMsg,
+      [styles['tal-c']]: itemAlign === 'center' || type === CONTENT_TYPE.systemMsg, // System message centered
       [styles['tal-r']]: itemAlign === 'right',
     })} >
       {ONLY_CONTENT_TYPE.includes(type) ? item : <div className={cNames(styles['msgFlowItem--dialog__wrapper'], {
-        [styles['msgFlowItem--dialog__wrapper--right-mode']] : itemAlign === 'right',
+        [styles['msgFlowItem--dialog__wrapper--right-mode']] : itemAlign === 'right', // Dialogue items with avatars, different according to itemAlign style
       })} >
         <img className={styles['msgFlowItem__head']} width="30" height="30" src={headSrc || headImg} />
         
