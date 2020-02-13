@@ -1,6 +1,6 @@
 /**
  * @description msg flow item
- * @author 詹伟超
+ * @author weichaozhan
  */
 
 import React, { Component, } from 'react';
@@ -15,7 +15,7 @@ export interface IItem {
   className?: string;
   style?: React.CSSProperties;
   itemAlign?: 'left' | 'right' | 'center'; // msg position
-  headSrc?: string;
+  headSrc?: string; // avatar
 }
 
 const CONTENT_TYPE = {
@@ -31,7 +31,7 @@ class MsgFlowItem extends Component<IItem> {
     super(props);
   }
 
-  buildItem() {
+  buildItem(): React.ReactNode {
     const props = this.props;
     const { type, content, className, style, } = props;
     let node = undefined;
