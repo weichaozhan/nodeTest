@@ -1,8 +1,5 @@
-import React, { useState, useEffect, useReducer, useContext, createContext, } from 'react';
+import React, { useState, useEffect, useReducer, useContext, createContext, useMemo, useCallback, } from 'react';
 
-interface IProps {
-  text: string;
-};
 interface IState {
   count: number
 }
@@ -11,12 +8,21 @@ interface IAction {
   payload?: IState;
 }
 
-function OriginChild() {
+
+interface IOriginChildProps {
+  datause: any;
+  onChange?: Function;
+}
+function OriginChild(props: IOriginChildProps) {
   const value = useContext(CountContext);
   
   return <div>
     {console.log('render Child')}
     Child: {value.count}
+
+    <div>
+      datause: {props.datause.name}
+    </div>
   </div>
 }
 const Child = React.memo(OriginChild);
@@ -41,7 +47,10 @@ function Count(props: any) {
   </CountContext.Provider>
 }
 
-
+/**
+ * Test reducer
+ * @param initailState 
+ */
 const initState = (initailState: IState) => {
   return { ...initailState, };
 }
@@ -67,38 +76,75 @@ const reducer = (state: IState, action: IAction): IState => {
 function usePublicCount() {
   const [state, dispatch] = useReducer(reducer, {
     count: 0,
-  });
+  }, initState);
 
   return { state, dispatch, };
 }
+
+/**
+ * 自定义 hooks
+ */
+function useCustomData(count: number) {
+  const [newCount, setNewCount] = useState(count);
+
+  useEffect(() => {
+    console.log('newCount', newCount);
+  });
+
+  return [newCount, setNewCount] as [number, Function];
+}
+
 function Test() {
   const [btnTxt, setBtnTxt] = useState(1);
   const { state, dispatch, } = usePublicCount();
+  const [newCount, setNewCount] = useCustomData(state.count);
 
   useEffect(() => {
     console.log('Test useEffect');
   }, []);
 
+  let testUseMemo = useMemo(() => {
+    return {
+      name: 'testUseMemo',
+    };
+  }, []);
+
+  const changeFuncChild = useCallback(() => {
+    console.log('changeFuncChild');
+  }, []);
+
   return <div>
+    <h1>
+      {newCount}
+
+      <button onClick={() => {
+        setNewCount(state.count + 1);
+      }} >set newCount</button>
+    </h1>
+
     <div>
-      <button onClick={() => setBtnTxt(Math.random())} >{btnTxt}</button>
+      <button onClick={() => {
+        setBtnTxt(Math.random());
+      }} >{btnTxt}</button>
     </div>
-
-    <button onClick={() => dispatch({
-      type: 'asc'
-    })} >count up</button>
-    <button onClick={() => dispatch({
-      type: 'desc'
-    })} >count down</button>
-    <button onClick={() => dispatch({
-      type: 'reset',
-      payload: {
-        count: 10,
-      },
-    })} >count rest</button>
-
+    
+    <div style={{ margin: '20px', }} >
+      <button onClick={() => dispatch({
+        type: 'asc'
+      })} >count up</button>
+      <button onClick={() => dispatch({
+        type: 'desc'
+      })} >count down</button>
+      <button onClick={() => dispatch({
+        type: 'reset',
+        payload: {
+          count: 10,
+        },
+      })} >count rest</button>
+    </div>
+    
     <Count countState={state} >
-      <Child />
+      <Child datause={testUseMemo} onChange={changeFuncChild} />
       <Child2 />
     </Count>
   </div> 
