@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useReducer, useContext, createContext, useMemo, useCallback, } from 'react';
+import React, { useState, useEffect, useReducer, useContext, createContext, useMemo, useCallback, ReactElement, } from 'react';
+
+import styles from './index.module.scss';
 
 interface IState {
   count: number
@@ -9,6 +11,9 @@ interface IAction {
 }
 
 
+/**
+ * OriginChildProps
+ */
 interface IOriginChildProps {
   datause: any;
   onChange?: Function;
@@ -26,7 +31,9 @@ function OriginChild(props: IOriginChildProps) {
   </div>
 }
 const Child = React.memo(OriginChild);
-
+/**
+ * Child2
+ */
 function Child2() {
   const value = useContext(CountContext);
 
@@ -35,7 +42,25 @@ function Child2() {
     Child2: {value.count}
   </h2>;
 }
+/**
+ * 
+ */
+function TestChildren(props: any) {
+  let children: ReactElement[];
 
+  children = props.children.map((item: ReactElement, index: number) => {
+    return React.cloneElement(item, { ...item.props, key: index, });
+  });
+
+  return <div className={styles['test-children-wrapper']} >
+    {children}
+  </div>
+}
+
+
+/**
+ * Test
+ */
 
 const initialState = {
   count: 0,
@@ -147,6 +172,20 @@ function Test() {
       <Child datause={testUseMemo} onChange={changeFuncChild} />
       <Child2 />
     </Count>
+
+    <TestChildren>
+      <ul>
+        <li>1</li>
+      </ul>
+
+      <ul>
+        <li>2</li>
+      </ul>
+
+      <ul>
+        <li>3</li>
+      </ul>
+    </TestChildren>
   </div> 
 }
 
