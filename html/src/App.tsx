@@ -8,7 +8,7 @@ import './App.css';
 // import TestMobx from './components/test/TestMobx';
 import Test from './components/test/Test';
 // import TestDB from './components/test/TestDB';
-import MsgFlow from './components/test/MsgFlow';
+// import MsgFlow from './components/test/MsgFlow';
 
 // import store from './mobx/test';
 import * as test from './store/actions/test';
@@ -46,7 +46,7 @@ type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typ
 const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
-      <MsgFlow items={[
+      {/* <MsgFlow items={[
         {
           type: 0,
           content: '1123',
@@ -70,7 +70,7 @@ const App: React.FC = (props: TProps) => {
           content: <span>ceshi</span>,
           itemAlign: 'right',
         },
-      ]} />
+      ]} /> */}
 
       {/* <TestDB/> */}
 
