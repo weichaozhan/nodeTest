@@ -160,7 +160,6 @@ export const mergeSort = ({ array, keySort = undefined, orderDir = 'asc' }: IOrd
       return arraySplit;
     }
   };
-  
 
   return splitArray(arraySort);
 };
