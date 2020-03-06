@@ -58,7 +58,7 @@ export const sortMerge = (list: number[]) => {
       rIndex++;
     }
     return result;
-  }
+  };
   const split = (arr: number[]) => {
     if (arr.length > 1) {
       const length = arr.length;
@@ -70,7 +70,7 @@ export const sortMerge = (list: number[]) => {
     } else {
       return arr;
     }
-  }
+  };
 
   return split(list);
 };
