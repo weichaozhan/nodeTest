@@ -1,0 +1,29 @@
+.drag-wrapper {
+  margin-bottom: 20px;
+  height: 500px;
+  overflow: hidden;
+
+  & > * {
+    height: 100%;
+  }
+}
+
+.drag-left {
+  position: relative;
+  width: 200px;
+  float: left;
+  background-color: orange;
+
+  &:hover .hover-border {
+    height: 100%;
+    position: absolute;
+    right: 0;
+    border: 2px solid gray;
+    cursor: col-resize;
+  }
+}
+
+.drag-right {
+  overflow: hidden;
+  background-color: skyblue;
+}

@@ -9,6 +9,7 @@ import './App.css';
 import Test from './components/test/Test';
 // import TestDB from './components/test/TestDB';
 // import MsgFlow from './components/test/MsgFlow';
+import DragTest from './components/test/DragTest';
 
 // import store from './mobx/test';
 import * as test from './store/actions/test';
@@ -46,6 +47,7 @@ type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typ
 const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
+      <DragTest />
       {/* <MsgFlow items={[
         {
           type: 0,
