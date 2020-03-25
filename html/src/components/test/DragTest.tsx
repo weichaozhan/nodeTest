@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, } from 'react';
+import React, { useState, useRef, useEffect, useCallback, } from 'react';
 
 import styles from './dragTest.module.scss';
 
@@ -7,13 +7,13 @@ function DragTest() {
   const [xDown, setXDown] = useState(0);
   const [isDown, setIsDow] = useState(false);
   
-  const onMouseDown = (e: MouseEvent) => {
+  const onMouseDown = useCallback((e: MouseEvent) => {
     if ((e.target as HTMLElement).dataset.type === 'hover') {
       setXDown(e.screenX);
       setIsDow(true);
     }
-  };
-  const onMouseMove = (e: MouseEvent) => {
+  }, []);
+  const onMouseMove = useCallback((e: MouseEvent) => {
     if (isDown) {
       const currentX = e.screenX;
       const currentWidth = leftDom.current.clientWidth;
@@ -23,11 +23,11 @@ function DragTest() {
       
       setXDown(currentX);
     }
-  };
-  const onMouseUp= (e: MouseEvent) => {
+  }, [xDown, isDown]);
+  const onMouseUp= useCallback((e: MouseEvent) => {
     setXDown(0);
     setIsDow(false);
-  }
+  }, []);
 
   useEffect(() => {
     document.body.addEventListener('mousedown', onMouseDown);
