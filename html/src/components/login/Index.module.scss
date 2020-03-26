@@ -8,10 +8,15 @@
 .login-content {
   width: 500px;
   min-height: 300px;
+  padding: 30px 50px;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 10px;
-  background: rgba($color: #ffffff, $alpha: .5);
+  background: rgba($color: #000, $alpha: .3);
+}
+
+.submit-btn {
+  width: 100%;
 }
