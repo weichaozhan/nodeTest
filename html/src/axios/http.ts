@@ -8,6 +8,18 @@ import { message } from 'antd';
 import axios from 'axios';
 import Qs from 'qs';
 
+const NODE_ENV = process.env.NODE_ENV;
+let prefix: string;
+
+switch(NODE_ENV) {
+  case 'development':
+    prefix = 'http://localhost:8089';  
+    break;
+  default:
+    prefix = 'http://localhost:9091';
+    break;
+}
+
 const http = (config: any = {}) => {
   const isFormData = Object.prototype.toString.call(config.data) === '[object FormData]';
   let headers: any = {};
@@ -32,7 +44,7 @@ const http = (config: any = {}) => {
   const newRequest = new Promise((resolve, reject) => {
     axios({
       ...config,
-      url: config.url,
+      url: `${prefix}${config.url}`,
       method: config.method || 'get',
       headers: headers,
       data: data,
