@@ -17,14 +17,14 @@ export const saveUser = async (ctx, next) => {
 
   const valid = validRequired(dataReq, ['name', 'password', 'email', 'auth']);
 
-  if (valid) {
+  if (valid) { // 输入不符
     bodyRes = {
       code: 0,
       msg: valid as string,
     };
   } else {
     try {
-      const condition = [];
+      const condition = []; // 查询条件：邮箱、用户名
   
       ['name', 'email'].forEach(item => {
         if (dataReq[item]) {

@@ -8,13 +8,25 @@ import config from './config';
 import router from './routes';
 import './mongo';
 
+const NODE_ENV = process.env.NODE_ENV;
+
 const app = new Koa();
 const port = config.port;
-const staticPath = './html';
+
+let staticPath: string;
+
+switch(NODE_ENV) {
+  case 'development':
+    staticPath = '../dist/html';
+    break;
+  default:
+    staticPath = '/html';
+    break;
+}
 
 app.use(bodyParser());
 app.use(koaStatic(path.join(__dirname, staticPath)));
 app.use(router.routes()).use(router.allowedMethods());
 app.listen(port, () => {
-  console.log(colors.bold(`\n\n\nServer listening at port ${port}\n\n\n`).underline.green);
+  console.log(colors.bold(`\n\n\nServer listening at port ${port}\n\n\n`).green);
 });
