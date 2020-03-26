@@ -6,10 +6,11 @@ import './styles/index.modules.scss';
 import './App.css';
 
 // import TestMobx from './components/test/TestMobx';
-import Test from './components/test/Test';
+// import Test from './components/test/Test';
 // import TestDB from './components/test/TestDB';
 // import MsgFlow from './components/test/MsgFlow';
-import DragTest from './components/test/DragTest';
+// import DragTest from './components/test/DragTest';
+import Login from './components/login/Index';
 
 // import store from './mobx/test';
 import * as test from './store/actions/test';
@@ -47,7 +48,8 @@ type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typ
 const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
-      <DragTest />
+      <Login />
+      {/* <DragTest /> */}
       {/* <MsgFlow items={[
         {
           type: 0,
@@ -77,7 +79,7 @@ const App: React.FC = (props: TProps) => {
       {/* <TestDB/> */}
 
       {/* <button onClick={() => props.doTestTimeout('react-redux')} >react-redux</button> */}
-      <Test/>
+      {/* <Test/> */}
       {/* <header className="App-header">
         <h1>
           {props.test.subData}

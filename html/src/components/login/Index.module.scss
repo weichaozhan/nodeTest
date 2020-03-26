@@ -1,0 +1,17 @@
+.login-wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: linear-gradient(45deg, skyblue 10%, blue 88%, darkblue 99%);
+}
+
+.login-content {
+  width: 500px;
+  min-height: 300px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  background: rgba($color: #ffffff, $alpha: .5);
+}
