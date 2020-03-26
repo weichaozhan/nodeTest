@@ -15,7 +15,7 @@ export const saveUser = async (ctx, next) => {
   };
   let usersGet: any[] = [];
 
-  const valid = validRequired(dataReq, ['name', 'password', 'email', 'auth']);
+  const valid = validRequired(dataReq, ['name', 'password', 'email',]);
 
   if (valid) { // 输入不符
     bodyRes = {
