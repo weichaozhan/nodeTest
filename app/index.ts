@@ -2,8 +2,9 @@ import Koa from 'koa';
 import koaStatic from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import colors from 'colors';
-
 import path from 'path';
+import cors from 'koa2-cors';
+
 import config from './config';
 import router from './routes';
 import './mongo';
@@ -24,6 +25,9 @@ switch(NODE_ENV) {
     break;
 }
 
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 app.use(bodyParser());
 app.use(koaStatic(path.join(__dirname, staticPath)));
 app.use(router.routes()).use(router.allowedMethods());
