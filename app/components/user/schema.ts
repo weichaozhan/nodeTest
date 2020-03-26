@@ -9,4 +9,8 @@ const userSchema = new Schema({
   email: String,
 });
 
+userSchema.methods.speak = () => {
+  console.log('new user', this);
+};
+
 export default mongoose.model('user', userSchema);
