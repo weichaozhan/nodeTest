@@ -49,7 +49,7 @@ type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typ
 const App: React.FC = (props: TProps) => {  
   return (
     <div className="App">
-      <Router>
+      <Router basename="/cms" >
         <Switch>
           <Route path="/login" exact >
             <Login />

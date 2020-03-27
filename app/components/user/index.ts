@@ -1,6 +1,7 @@
 import UserModel from './schema';
 import {
   STATUS_CODE,
+  InitReaponse,
 } from '../../constant';
 import {
   validRequired,
@@ -9,10 +10,7 @@ import {
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
   const newUser = new UserModel(dataReq);
-  let bodyRes: IAPIResponse = {
-    code: STATUS_CODE.serverErr,
-    msg: '服务器错误！',
-  };
+  let bodyRes: IAPIResponse = new InitReaponse();
   let usersGet: any[] = [];
 
   const valid = validRequired(dataReq, ['name', 'password', 'email',]);
@@ -71,10 +69,7 @@ export const saveUser = async (ctx, next) => {
 export const removeUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
 
-  let bodyRes: IAPIResponse = {
-    code: STATUS_CODE.serverErr,
-    msg: '服务器错误！',
-  };
+  let bodyRes: IAPIResponse = new InitReaponse();
 
   try {
     const statusSave = await UserModel.remove({
@@ -96,10 +91,7 @@ export const removeUser = async (ctx, next) => {
 
 export const updateUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
-  let bodyRes: IAPIResponse = {
-    code: STATUS_CODE.serverErr,
-    msg: '服务器错误！',
-  };
+  let bodyRes: IAPIResponse = new InitReaponse();
   
   let emailUsed = false;
   try {
@@ -148,10 +140,7 @@ export const updateUser = async (ctx, next) => {
 };
 
 export const getUsersList = async (ctx, next) => {
-  let bodyRes: IAPIResponse = {
-    code: STATUS_CODE.serverErr,
-    msg: '服务器错误！',
-  };
+  let bodyRes: IAPIResponse = new InitReaponse();
 
   try {
     const usersList = await UserModel.find().exec();

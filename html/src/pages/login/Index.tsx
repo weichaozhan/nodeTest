@@ -39,7 +39,7 @@ const Login = () => {
 
   return <div className={styles['login-wrapper']} >
     <div className={styles['login-content']} >
-      <h1>CMS 系统</h1>
+      <h1 className={styles['title']} >CMS 系统</h1>
 
       <UserForm form={form} >
         <Form.Item {...layout}>
