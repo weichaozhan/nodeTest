@@ -16,7 +16,7 @@ switch(NODE_ENV) {
     prefix = 'http://localhost:8089';  
     break;
   default:
-    prefix = 'http://localhost:9091';
+    prefix = '';
     break;
 }
 

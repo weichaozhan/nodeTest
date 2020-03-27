@@ -9,6 +9,24 @@ export const registeredUserAPI = (data: IUser) => {
   });
 };
 
+export const updateUsersAPI = (data: IUser) => {
+  return http({
+    method: 'put',
+    url: '/api/user',
+    data,
+  });
+};
+
+export const deleteUsersAPI = (data: {
+  _id?: (string | number)[],
+}) => {
+  return http({
+    method: 'delete',
+    url: '/api/user',
+    data,
+  });
+};
+
 export const getUsersAPI = () => {
   return http({
     method: 'get',
