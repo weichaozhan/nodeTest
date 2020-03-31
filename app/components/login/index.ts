@@ -20,7 +20,7 @@ export const login = async (ctx, next) => {
       const userList = await UserModal.find({
         account: dataReq.account,
       }).exec();
-      const user: any = userList && userList[0];
+      const user: any = userList?.[0];
       
       if (user) {
         const passwordRequire = dataReq.password;
@@ -45,4 +45,4 @@ export const login = async (ctx, next) => {
 
   ctx.body = bodyRes;
   next();
-}
+};
