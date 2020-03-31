@@ -1,6 +1,17 @@
 import http from '../axios/http';
 import { IUser } from '../typings/user';
 
+export const loginAPI = (data: {
+  account: string;
+  password: string;
+}) => {
+  return http({
+    method: 'post',
+    url: '/api/login',
+    data,
+  });
+};
+
 export const registeredUserAPI = (data: IUser) => {
   return http({
     method: 'post',

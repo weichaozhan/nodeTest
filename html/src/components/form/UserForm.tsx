@@ -40,6 +40,14 @@ const UserForm = (props: IProps) => {
     >
       <Input size="large" placeholder="请输入姓名" />
     </FormItem>
+
+    <FormItem
+      name="account"
+      rules={[{ required: true, message: '请输入账号！' }]}
+      
+    >
+      <Input size="large" placeholder="请输入账号" />
+    </FormItem>
     
     {action === 'add' && <FormItem
       name="password"

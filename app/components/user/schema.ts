@@ -11,6 +11,7 @@ const userSchema = new Schema({
   account: {
     type: String,
     unique: true,
+    required: [true, '请输入账号！'],
   },
   auth: Array,
   password: {
