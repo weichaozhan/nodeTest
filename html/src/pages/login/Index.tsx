@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter, RouteComponentProps, } from 'react-router-dom';
 import { Button, Form, message, Input, } from 'antd';
 
 import styles from './Index.module.scss';
@@ -8,6 +9,7 @@ import UserForm from '../../components/form/UserForm';
 import { CODE_REQUEST, } from '../../constants/http';
 import {
   registeredUserAPI,
+  loginAPI,
 } from '../../api/user';
 import { IUser, } from '../../typings/user';
 import { http, } from '../../typings/http';
@@ -18,7 +20,7 @@ const layout = {
   wrapperCol: { span: 24, },
 };
 
-const Login = () => {
+const Login = (props: RouteComponentProps) => {
   const [formRegister] = Form.useForm();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -40,6 +42,23 @@ const Login = () => {
       });
   }
 
+  const submitLogin = (values: {
+    account: string;
+    password: string;
+  }) => {
+    loginAPI(values)
+      .then((res: any) => {
+        const result = res as http.IResponse;
+
+        if (result.code === CODE_REQUEST.success) {
+          message.success(result.msg);
+          props.history.push('/');
+        } else {
+          message.error(result.msg);
+        }
+      });
+  }
+
   return <div className={styles['login-wrapper']} >
     <div className={styles['login-content']} >
       <div className={styles['switch-action']} data-content={isLogin ? '注册' : '登陆'} onClick={() => {
@@ -53,16 +72,16 @@ const Login = () => {
         {...layout}
         labelAlign="left"
         name="login"
-        onFinish={values => {
-          console.log('login', values);
+        onFinish={(values: any) => {
+          submitLogin(values);
         }}
       >
         <FormItem
-          name="name"
-          rules={[{ required: true, message: '请输入姓名！' }]}
+          name="account"
+          rules={[{ required: true, message: '请输入账号！' }]}
           
         >
-          <Input size="large" placeholder="请输入姓名" />
+          <Input size="large" placeholder="请输入账号" />
         </FormItem>
         
         <FormItem
@@ -88,4 +107,4 @@ const Login = () => {
   </div>
 }
 
-export default Login;
+export default withRouter(Login);

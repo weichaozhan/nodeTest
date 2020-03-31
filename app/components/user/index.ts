@@ -3,7 +3,6 @@ import {
   STATUS_CODE,
   InitReaponse,
 } from '../../constant';
-import mongoose from 'mongoose';
 
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
@@ -106,10 +105,15 @@ export const updateUser = async (ctx, next) => {
         };
       }
     } catch(err) {
-      bodyRes = {
-        code: STATUS_CODE.serverErr,
-        msg: err,
-      };
+      if (err.message.indexOf('duplicate key error') > -1) {
+        if (err.message.indexOf('email') > -1) {
+          bodyRes.msg = '邮箱已占用！';
+        } else if (err.message.indexOf('account') > -1) {
+          bodyRes.msg = '账户已占用！';
+        }
+      } else {
+        console.log(err);  
+      }
     }
   } else {
     bodyRes = {
