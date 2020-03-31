@@ -21,7 +21,7 @@ const { Column, } = Table;
 const Users = () => {
   const [form] = Form.useForm();
 
-  const [action, setAction] = useState('add');
+  const [action, setAction]: ['add' | 'edit', Function] = useState('add');
 
   const [usersSelected, setUsersSelected]: [any[], Function] = useState([]);
   const [users, setUsers] = useState([]);
@@ -72,7 +72,9 @@ const Users = () => {
     setVisible(false);
     setLoadingSubmit(false);
     setUserData(undefined);
-    form.resetFields();
+    setTimeout(() => {
+      form.resetFields();
+    });
   };
 
   const openModal = (record?: IUser) => {
@@ -155,7 +157,7 @@ const Users = () => {
       confirmLoading={loadingSubmit}
       onOk={() => onSubmit()}
     >
-      <UserForm form={form} initialValues={userData} />
+      <UserForm form={form} action={action} initialValues={userData} />
     </Modal>
   </div>
 }

@@ -7,6 +7,7 @@ import { IUser } from '../../typings/user';
 
 interface IProps {
   form: FormInstance;
+  action?: 'add' | 'edit'; 
   children?: React.ReactChild;
   initialValues?: IUser;
 }
@@ -19,7 +20,7 @@ const layout = {
 };
 
 const UserForm = (props: IProps) => {
-  const { form, initialValues, children, } = props;
+  const { form, initialValues, children, action, } = props;
 
   useEffect(() => {
     form.setFieldsValue(initialValues as IUser);
@@ -29,7 +30,7 @@ const UserForm = (props: IProps) => {
     form={form}
     {...layout}
     labelAlign="left"
-    name="login"
+    name="register"
     initialValues={initialValues}
   >
     <FormItem
@@ -40,12 +41,12 @@ const UserForm = (props: IProps) => {
       <Input size="large" placeholder="请输入姓名" />
     </FormItem>
     
-    <FormItem
+    {action === 'add' && <FormItem
       name="password"
       rules={[{ required: true, message: '请输入密码！' }]}
     >
       <Input.Password size="large" placeholder="请输入密码" />
-    </FormItem>
+    </FormItem>}
 
     <FormItem
       name="email"
@@ -63,6 +64,7 @@ const UserForm = (props: IProps) => {
 
 UserForm.defaultProps = {
   initialValues: {},
+  action: 'add',
 };
 
 export default UserForm;

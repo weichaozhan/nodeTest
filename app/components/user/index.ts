@@ -3,62 +3,45 @@ import {
   STATUS_CODE,
   InitReaponse,
 } from '../../constant';
-import {
-  validRequired,
-} from '../../tools';
+import mongoose from 'mongoose';
 
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
   const newUser = new UserModel(dataReq);
   let bodyRes: IAPIResponse = new InitReaponse();
-  let usersGet: any[] = [];
 
-  const valid = validRequired(dataReq, ['name', 'password', 'email',]);
-
-  if (valid) { // 输入不符
+  const error = newUser.validateSync();
+  
+  if (error) {
     bodyRes = {
-      code: 0,
-      msg: valid as string,
+      code: STATUS_CODE.undownErr,
+      msg: error?.message,
     };
   } else {
     try {
-      const condition = []; // 查询条件：邮箱、用户名
+      const statusSave = await newUser.save();
   
-      ['email'].forEach(item => {
-        if (dataReq[item]) {
-          condition.push({[item]: dataReq[item]});
-        }
-      });
-      usersGet = await UserModel.find({
-        '$or': condition,
-      }).exec();
+      if (statusSave) {
+        bodyRes = {
+          code: STATUS_CODE.success,
+          msg: '添加用户成功！',  
+        };
+      } else {
+        bodyRes = {
+          code: STATUS_CODE.undownErr,
+          msg: '添加用户失败！',  
+        };
+      }
     } catch(err) {
-      console.log(err);
-    }
-    
-    if (usersGet.length === 0) {
-      try {
-        const statusSave = await newUser.save();
-    
-        if (statusSave) {
-          bodyRes = {
-            code: STATUS_CODE.success,
-            msg: '添加用户成功！',  
-          };
-        } else {
-          bodyRes = {
-            code: STATUS_CODE.undownErr,
-            msg: '添加用户失败！',  
-          };
+      if (err.message.indexOf('duplicate key error') > -1) {
+        if (err.message.indexOf('email') > -1) {
+          bodyRes.msg = '邮箱已占用！';
+        } else if (err.message.indexOf('account') > -1) {
+          bodyRes.msg = '账户已占用！';
         }
-      } catch(err) {
+      } else {
         console.log(err);
       }
-    } else {
-      bodyRes = {
-        code: STATUS_CODE.undownErr,
-        msg: '邮箱已注册！',  
-      };
     }
   }
 
@@ -143,7 +126,7 @@ export const getUsersList = async (ctx, next) => {
   let bodyRes: IAPIResponse = new InitReaponse();
 
   try {
-    const usersList = await UserModel.find().exec();
+    const usersList = await UserModel.find(null, '_id name auth email account').exec();
 
     bodyRes = {
       code: STATUS_CODE.success,
