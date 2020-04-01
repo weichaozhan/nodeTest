@@ -3,9 +3,11 @@ import api from './api';
 import fs from 'fs';
 
 import { staticPath, } from '../constant/gloabal';
+import { verifyToken, } from '../middlewares/verificationToken';
 
 const router = new Router();
 
+router.use('/api', verifyToken);
 router.use('/api', api.routes(), api.allowedMethods());
 
 /**

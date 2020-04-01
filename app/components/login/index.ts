@@ -5,6 +5,9 @@ import {
 } from '../../constant';
 import { validRequired, } from '../../tools';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+import { signSecrect, } from '../../constant/gloabal';
 
 export const login = async (ctx, next) => {
   const dataReq = ctx.request.body;
@@ -28,7 +31,18 @@ export const login = async (ctx, next) => {
       
         const isPass = bcrypt.compareSync(passwordRequire, passwordGet);
         if (isPass) {
+          const token = jwt.sign({
+            _id: user._id,
+            account: user.account,
+            name: user.name,
+            email: user.email,
+          }, signSecrect, { expiresIn: '8h', });
+          
           bodyRes.code = STATUS_CODE.success;
+          bodyRes.data = {
+            token,
+            user,
+          }
           bodyRes.msg = '登陆成功！';
         } else {
           bodyRes.code = STATUS_CODE.undownErr;
@@ -36,7 +50,7 @@ export const login = async (ctx, next) => {
         }
       } else {
         bodyRes.code = STATUS_CODE.undownErr;
-        bodyRes.msg = '账号未注册！';
+        bodyRes.msg = '账号不存在！';
       }
     } catch (err) {
       console.log(err);

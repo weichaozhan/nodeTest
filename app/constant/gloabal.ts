@@ -13,6 +13,9 @@ switch(NODE_ENV) {
     break;
 }
 
+const signSecrect = 'token';
+
 export {
   staticPath,
+  signSecrect,
 };
