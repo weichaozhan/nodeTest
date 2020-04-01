@@ -42,7 +42,7 @@ export const login = async (ctx, next) => {
           bodyRes.data = {
             token,
             user,
-          }
+          };
           bodyRes.msg = '登陆成功！';
         } else {
           bodyRes.code = STATUS_CODE.undownErr;

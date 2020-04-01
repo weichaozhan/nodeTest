@@ -70,7 +70,7 @@ const Login = (props: RouteComponentProps) => {
       </div>
 
       <h1 className={styles['title']} >
-        <img src={logo} width="50" />
+        <img src={logo} alt="logo" width="50" />
       </h1>
 
       {isLogin ? <Form

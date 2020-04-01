@@ -55,4 +55,4 @@ export const verifyToken = async (ctx, next) => {
       console.log(err);
     }
   }
-}
+};
