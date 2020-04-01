@@ -3,6 +3,7 @@ import { withRouter, RouteComponentProps, } from 'react-router-dom';
 import { Button, Form, message, Input, } from 'antd';
 
 import styles from './Index.module.scss';
+import logo from '../../assets/images/logo.png';
 
 import UserForm from '../../components/form/UserForm';
 
@@ -52,6 +53,8 @@ const Login = (props: RouteComponentProps) => {
 
         if (result.code === CODE_REQUEST.success) {
           message.success(result.msg);
+          localStorage.setItem('token', result.data.token);
+          localStorage.setItem('userMsg', result.data.user);
           props.history.push('/');
         } else {
           message.error(result.msg);
@@ -66,7 +69,9 @@ const Login = (props: RouteComponentProps) => {
       }} >
       </div>
 
-      <h1 className={styles['title']} >CMS 系统</h1>
+      <h1 className={styles['title']} >
+        <img src={logo} width="50" />
+      </h1>
 
       {isLogin ? <Form
         {...layout}

@@ -28,7 +28,7 @@ const Home = () => {
       <Button className={styles['collapsed-controllor']} icon={<AlignCenterOutlined />} onClick={changeCollapsed} ></Button>
 
       <div className={styles['system-title']} >
-        {collapsed ? 'CMS' : 'CMS 系统'}
+        CMS
       </div>
       
       <MenuSider />

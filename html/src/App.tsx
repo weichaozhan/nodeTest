@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect, } from 'react-redux';
 import {
-  BrowserRouter as Router,
+  Router,
   Switch,
   Route,
 } from 'react-router-dom';
@@ -9,6 +9,8 @@ import 'antd/dist/antd.css';
 
 import './styles/index.modules.scss';
 import './App.css';
+
+import history from './router/history';
 
 import Login from './pages/login/Index';
 import Home from './pages/Home';
@@ -46,10 +48,10 @@ const mapStateToProps = (state: any,) => {
 };
 
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
-const App: React.FC = (props: TProps) => {  
+const App: React.FC = () => {  
   return (
     <div className="App">
-      <Router basename="/cms" >
+      <Router history={history} >
         <Switch>
           <Route path="/login" exact >
             <Login />

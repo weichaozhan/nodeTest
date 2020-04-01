@@ -6,6 +6,9 @@ import {
 
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
+
+  delete dataReq.auth;
+
   const newUser = new UserModel(dataReq);
   let bodyRes: IAPIResponse = new InitReaponse();
 
@@ -128,7 +131,7 @@ export const updateUser = async (ctx, next) => {
 
 export const getUsersList = async (ctx, next) => {
   let bodyRes: IAPIResponse = new InitReaponse();
-
+  
   try {
     const usersList = await UserModel.find(null, '_id name auth email account').exec();
 

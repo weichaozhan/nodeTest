@@ -4,9 +4,10 @@
  * @param {Boolean} isFormData 是否为FormData，true 不设置请求头
  */
 import { message } from 'antd';
-
 import axios from 'axios';
 import Qs from 'qs';
+
+import history from '../router/history';
 
 const NODE_ENV = process.env.NODE_ENV;
 let prefix: string;
@@ -22,7 +23,10 @@ switch(NODE_ENV) {
 
 const http = (config: any = {}) => {
   const isFormData = Object.prototype.toString.call(config.data) === '[object FormData]';
+  const token = localStorage.getItem('token');
   let headers: any = {};
+
+  token && (headers.Authorization = token);
 
   if (
     !(config.headers && config.headers['Content-Type'])
@@ -78,6 +82,9 @@ axios.interceptors.response.use(data => {
     message.error('服务器被吃了⊙﹏⊙∥');
   } else if (status === 403) {
     message.error('权限不足,请联系管理员!');
+  } else if (status === 401) {
+    history.push('/login');
+    message.error(err.response.data || '登陆信息已过期，请重新登陆！');
   } else {
     message.error('请求超时!');
   }

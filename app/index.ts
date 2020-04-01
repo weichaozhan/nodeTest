@@ -2,7 +2,6 @@ import Koa from 'koa';
 import koaStatic from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import colors from 'colors';
-import path from 'path';
 import cors from 'koa2-cors';
 
 import { staticPath, } from './constant/gloabal';
