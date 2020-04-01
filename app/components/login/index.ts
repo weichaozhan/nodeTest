@@ -36,7 +36,7 @@ export const login = async (ctx, next) => {
             account: user.account,
             name: user.name,
             email: user.email,
-          }, signSecrect, { expiresIn: '8h', });
+          }, signSecrect, { expiresIn: '1m', });
           
           bodyRes.code = STATUS_CODE.success;
           bodyRes.data = {
