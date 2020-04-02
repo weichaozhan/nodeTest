@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "cross-env NODE_ENV=test jest",
+    "test-c": "jest --coverage",
     "dev-ts": "ts-node-dev app/nodeBaseTest/test.ts",
     "dev": "cross-env PORT=8089 NODE_ENV=development \"npm run lint && ts-node-dev app/index.ts\"",
     "start": "concurrently \"npm run lint && ts-node-dev app/index.ts\" \"cd html && npm run start\"",
