@@ -1,3 +1,5 @@
+// https://quanru.github.io/2018/02/22/%E4%BD%BF%E7%94%A8%20Jest%20%E6%B5%8B%E8%AF%95%20Node.js/
+
 describe('api 映射模块', () => {
   // 在所有单测运行前执行，用于准备当前 describe 模块所需要的环境准备，比如全局的数据库；
   beforeAll(() => {
