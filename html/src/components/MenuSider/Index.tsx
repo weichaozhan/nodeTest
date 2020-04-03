@@ -18,10 +18,10 @@ const Sider = (props: IProps) => {
     theme="dark"
     defaultSelectedKeys={[props.history.location.pathname]}
   >
-    <MenuItem key="/login" title="登陆" >
-      <NavLink to="/login" >
+    <MenuItem key="/menuManage" title="菜单管理" >
+      <NavLink to="/menuManage" >
         <LoginOutlined />
-        <span>登陆</span>
+        <span>菜单管理</span>
       </NavLink>
     </MenuItem>
 
