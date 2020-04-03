@@ -11,6 +11,7 @@ import styles from './home.module.scss';
 
 import MenuSider from '../components/MenuSider/Index';
 import Users from './users/Index';
+import MenuManage from './menuManage/Index';
 
 const { Sider, Header, Content, } = Layout;
 
@@ -51,6 +52,10 @@ const Home = () => {
 
           <Route path="/users" exact >
             <Users/>
+          </Route>
+
+          <Route path="/menuManage" exact >
+            <MenuManage/>
           </Route>
 
         </Switch>
