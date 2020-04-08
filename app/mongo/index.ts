@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import colors from 'colors';
 
 import config from '../config';
+import { initMongoData, } from './dataInit';
 
 mongoose.connect(config.url);
 mongoose.Promise = global.Promise;
@@ -9,6 +10,7 @@ mongoose.Promise = global.Promise;
 const db = mongoose.connection;
 
 db.once('open' ,() => {
+  initMongoData();
 	console.log(
     colors.green('连接数据库成功')
   );

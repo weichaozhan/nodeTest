@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter, RouteComponentProps, } from 'react-router-dom';
+import { withRouter, } from 'react-router-dom';
 
 const MenuManage = () => {
   return <div>

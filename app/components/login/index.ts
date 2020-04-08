@@ -1,4 +1,4 @@
-import UserModal from '../user/schema';
+import UserModal from '../../models/userModel';
 import {
   STATUS_CODE,
   InitReaponse,
@@ -36,7 +36,7 @@ export const login = async (ctx, next) => {
             account: user.account,
             name: user.name,
             email: user.email,
-          }, signSecrect, { expiresIn: '1m', });
+          }, signSecrect, { expiresIn: '8h', });
           
           bodyRes.code = STATUS_CODE.success;
           bodyRes.data = {
