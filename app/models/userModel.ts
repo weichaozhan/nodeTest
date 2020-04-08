@@ -13,7 +13,7 @@ const userSchema = new Schema({
     unique: true,
     required: [true, '请输入账号！'],
   },
-  auth: Array,
+  role: Array,
   password: {
     type: String,
     required: [true, '请输入密码！'],

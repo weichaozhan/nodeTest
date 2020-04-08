@@ -137,7 +137,7 @@ const Users = () => {
       <Column title="ID" dataIndex="_id" ></Column>
       <Column title="姓名" dataIndex="name" ></Column>
       <Column title="邮箱" dataIndex="email" ></Column>
-      <Column title="权限" dataIndex="auth" render={(keyValue: number[]) => keyValue.join()} ></Column>
+      <Column title="角色" dataIndex="role" render={(keyValue: number[]) => keyValue.map((item: any) => item.name).join('、')} ></Column>
       <Column title="操作" key="action" render={(record: IUser) => {
         return <Fragment>
             <Button type="primary" size="small" shape="circle" icon={<EditOutlined />} onClick={() => openModal(record)} ></Button>

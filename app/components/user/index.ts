@@ -1,4 +1,4 @@
-import UserModel from './schema';
+import { UserModel, RoleModel, } from '../../models/index';
 import {
   STATUS_CODE,
   InitReaponse,
@@ -13,6 +13,9 @@ export const saveUser = async (ctx, next) => {
   let bodyRes: IAPIResponse = new InitReaponse();
 
   const error = newUser.validateSync();
+  const roles = RoleModel.find({
+    code: ['ADMIN_ROLE_CODE', 'admin'],
+  }).exec();
   
   if (error) {
     bodyRes = {
@@ -133,7 +136,7 @@ export const getUsersList = async (ctx, next) => {
   let bodyRes: IAPIResponse = new InitReaponse();
   
   try {
-    const usersList = await UserModel.find(null, '_id name auth email account').exec();
+    const usersList = await UserModel.find(null, '_id name role email account').exec();
 
     bodyRes = {
       code: STATUS_CODE.success,
