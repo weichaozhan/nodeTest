@@ -1,5 +1,5 @@
 const devConf: IConfig = {
-  port: parseInt(process.env.PORT, 10) || 8089,
+  port: parseInt(process.env.PORT, 10) || 9000,
 	url: 'mongodb://localhost:27017/wczhancms',
 	session: {
 		name: 'SID',
