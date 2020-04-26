@@ -1,3 +1,6 @@
+import 'core-js';
+import "regenerator-runtime/runtime";
+
 import React from 'react';
 import { Provider, } from 'react-redux';
 import ReactDOM from 'react-dom';
