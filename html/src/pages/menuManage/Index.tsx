@@ -11,7 +11,6 @@ import {
   // RichUtils,
   Modifier,
   Entity,
-  convertToRaw,
 } from 'draft-js';
 
 import 'draft-js/dist/Draft.css';
@@ -19,7 +18,7 @@ import styles from './index.module.scss';
 
 const NewDiv = (props: any) => {
   return <span className={styles['new-div']} onClick={() => console.log('div')} >
-    {props.content || `I'm new div`}
+    {props.children}
   </span>;
 };
 
@@ -100,14 +99,14 @@ const MenuManage = () => {
     const firstBlank = Modifier.replaceText(
       contentState,
       selection,
-      " ",
+      "",
       undefined,
       undefined
     );
     const withEntity = Modifier.insertText(
       firstBlank,
       firstBlank.getSelectionAfter(),
-      " ",
+      content,
       undefined,
       contentStateWithEntity
     );
@@ -115,7 +114,7 @@ const MenuManage = () => {
     const withBlank = Modifier.insertText(
       withEntity,
       withEntity.getSelectionAfter(),
-      " ",
+      "",
       undefined,
       undefined,
     );
