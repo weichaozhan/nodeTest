@@ -64,7 +64,7 @@ console.log('iminterface', iminterface);
 // 混合类型
 interface Counter {
   interval: number;
-  reset(): void;
+  reset: () => void;
   (start: number): string;
 }
 
@@ -92,7 +92,7 @@ class Control {
 }
 // 因为 pPrivate 是私有成员，所以只能够是Control的子类们才能实现 IExtendsInterface 接口
 interface IExtendsInterface extends Control {
-  doSomething(t?: string): void;
+  doSomething: (t?: string) => void;
 }
 
 class ChildControl extends Control implements IExtendsInterface {
