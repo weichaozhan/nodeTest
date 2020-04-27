@@ -54,7 +54,7 @@ const Login = (props: RouteComponentProps) => {
         if (result.code === CODE_REQUEST.success) {
           message.success(result.msg);
           localStorage.setItem('token', result.data.token);
-          localStorage.setItem('userMsg', result.data.user);
+          localStorage.setItem('userMsg', JSON.stringify(result.data.user));
           props.history.push('/');
         } else {
           message.error(result.msg);

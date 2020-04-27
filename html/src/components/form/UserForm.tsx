@@ -15,8 +15,8 @@ interface IProps {
 const FormItem = Form.Item;
 
 const layout = {
-  labelCol: { span: 0, },
-  wrapperCol: { span: 24, },
+  labelCol: { span: 6, },
+  wrapperCol: { span: 18, },
 };
 
 const UserForm = (props: IProps) => {
@@ -35,6 +35,7 @@ const UserForm = (props: IProps) => {
   >
     <FormItem
       name="name"
+      label="姓名"
       rules={[{ required: true, message: '请输入姓名！' }]}
       
     >
@@ -43,6 +44,7 @@ const UserForm = (props: IProps) => {
 
     <FormItem
       name="account"
+      label="账号"
       rules={[{ required: true, message: '请输入账号！' }]}
       
     >
@@ -51,6 +53,7 @@ const UserForm = (props: IProps) => {
     
     {action === 'add' && <FormItem
       name="password"
+      label="密码"
       rules={[{ required: true, message: '请输入密码！' }]}
     >
       <Input.Password size="large" placeholder="请输入密码" />
@@ -58,6 +61,7 @@ const UserForm = (props: IProps) => {
 
     <FormItem
       name="email"
+      label="邮箱"
       rules={[
         { required: true, message: '请输入邮箱！', },
         { message: '请输入输入正确的邮箱格式！', type: 'email', },
