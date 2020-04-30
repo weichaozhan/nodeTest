@@ -1,0 +1,9 @@
+.wrapper-g6 {
+  width: 100%;
+  height: calc(80vh - 100px);
+  canvas, svg {
+    width: 100%;
+    border: 1px solid orange;
+    border-radius: 10px;
+  }
+}
