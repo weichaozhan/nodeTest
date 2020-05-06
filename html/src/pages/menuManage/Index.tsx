@@ -2,57 +2,38 @@ import React, { useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import { withRouter, } from 'react-router-dom';
 
-import { TreeGraph, Graph } from '@antv/g6';
-import { TreeGraphData, GraphData } from '@antv/g6/lib/types';
-// import { G6s as G6 } from './g6tools';
+import { TreeGraph, Graph, } from '@antv/g6';
+import { TreeGraphData, } from '@antv/g6/lib/types';
+
 import G6 from './g6tools';
+import { NODE_TYPE, } from './g6Constant';
 
 import styles from './G6.module.scss';
 
 // import DraftCM from './DraftCM';
 
-let graph: TreeGraph | Graph | undefined;
-const data: TreeGraphData | GraphData = {
+let graph: TreeGraph | undefined;
+
+const heightMiniMap = 100;
+
+const data: TreeGraphData = {
   id: 'root',
-  label: 'root',
+  label: '业务Q名称',
   data: {
+    type: NODE_TYPE.bizQNode,
     show: true,
   },
   children: [
     {
       id: 'child1',
-      label: 'child1',
+      label: '默认答案',
       data: {
-        show: true,
-      },
-    },
-    {
-      id: 'child2',
-      label: 'child2',
-      data: {
+        type: NODE_TYPE.defaultAnswer,
         show: true,
       },
     },
   ],
 };
-// const data: GraphData = {
-//   nodes: [
-//     {
-//       id: 'node1',
-//       label: 'node1',
-//     },
-//     {
-//       id: 'node2',
-//       label: 'node2',
-//     },
-//   ],
-//   edges: [
-//     {
-//       source: 'node1',
-//       target: 'node2',
-//     },
-//   ],
-// };
 
 const MenuManage = () => {
   const ref = useRef<HTMLInputElement>(null);
@@ -63,7 +44,7 @@ const MenuManage = () => {
         const dom = ReactDOM.findDOMNode(ref.current) as HTMLElement;
 
         const width = dom.clientWidth || 900;
-        const height = (document.querySelector('main')?.clientHeight || 500) - 100;
+        const height = (document.querySelector('main')?.clientHeight || 500) - 50 - heightMiniMap;
   
         graph = new G6.TreeGraph({
         // graph = new G6.Graph({
@@ -80,28 +61,41 @@ const MenuManage = () => {
           },
           layout: {
             type: 'compactBox',
-            // type: 'dagre',
-            direction: 'TB',
+            // direction: 'TB',
             nodesep: 30,
             ranksep: 100,
-          },
-          defaultNode: {
-            type: 'bizQNode',
-            labelCfg: {
-              style: {
-                fill: '#000000A6',
-                fontSize: 10,
-              },
-            },
           },
           defaultEdge: {
             type: 'customPolyline',
           },
         });
   
+        graph.node((node: any) => {
+          return {
+            type: node?.data.type,
+            label: node.label,
+          };
+        });
         graph.data(data); // 读取 Step 2 中的数据源到图上
+        
         graph.render(); // 渲染图
         graph.fitView();
+
+        graph.on('node:click', (ev: any) => {
+          const nodeType = ev.target?.cfg?.name;
+          const id = ev.item?.defaultCfg?.id;
+
+          if (nodeType && id && nodeType === NODE_TYPE.childSelectorBizQ) {
+            graph?.addChild({
+              id: `child${Date.now()}`,
+              label: `规则${Date.now()}`,
+              data: {
+                type: NODE_TYPE.bizQNode,
+                show: true,
+              },
+            }, id);
+          }
+        });
       });
     }
 
@@ -111,9 +105,9 @@ const MenuManage = () => {
     }
   }, []);
 
-  return <div style={{ overflow: 'visible', }} >
+  return <div className={styles['wrapper-g6']} >
     {/* <DraftCM/> */}
-    <div className={styles['wrapper-g6']} ref={ref} ></div>
+    <div className={styles['g6-container']} ref={ref} ></div>
   </div>;
 }
 
