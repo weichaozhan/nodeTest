@@ -14,8 +14,6 @@ import styles from './G6.module.scss';
 
 let graph: TreeGraph | undefined;
 
-const heightMiniMap = 100;
-
 const data: TreeGraphData = {
   id: 'root',
   label: '业务Q名称',
@@ -44,7 +42,7 @@ const MenuManage = () => {
         const dom = ReactDOM.findDOMNode(ref.current) as HTMLElement;
 
         const width = dom.clientWidth || 900;
-        const height = (document.querySelector('main')?.clientHeight || 500) - 50 - heightMiniMap;
+        const height = (document.querySelector('main')?.clientHeight || 500) - 50;
   
         graph = new G6.TreeGraph({
         // graph = new G6.Graph({
@@ -66,14 +64,38 @@ const MenuManage = () => {
             ranksep: 100,
           },
           defaultEdge: {
-            type: 'customPolyline',
+            type: 'line',
+            style: {
+              radius:5,
+              offset:30,
+              stroke:'#1890ff',
+              // endArrow: {
+              //   path: 'M 0,0 L 8,4 L 7,0 L 8,-4 Z',
+              // },
+            },
           },
+          edgeStateStyles: {
+            hover: {
+              stroke: 'orange',
+              fill: 'orange',
+              // lineWidth: 3,
+              endArrow: {
+                path: 'M 0,0 L 8,4 L 7,0 L 8,-4 Z',
+                stroke: 'orange',
+                fill: 'orange',
+              },
+            },
+          }
         });
   
         graph.node((node: any) => {
           return {
             type: node?.data.type,
-            label: node.label,
+            labelCfg: {
+              style: {
+                text: '',
+              }
+            },
           };
         });
         graph.data(data); // 读取 Step 2 中的数据源到图上
@@ -95,6 +117,12 @@ const MenuManage = () => {
               },
             }, id);
           }
+        });
+        graph.on('edge:mouseenter', (ev: any) => {
+          (graph as Graph).setItemState(ev.item, 'hover', true);
+        });
+        graph.on('edge:mouseleave', (ev: any) => {
+          (graph as Graph).setItemState(ev.item, 'hover', false);
         });
       });
     }

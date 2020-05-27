@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@antv/g6": "^3.4.7",
+    "@antv/g6": "3.4.8",
     "@antv/matrix-util": "^3.0.2",
     "@babel/core": "7.7.4",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.8.3",
