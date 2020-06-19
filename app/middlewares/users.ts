@@ -16,4 +16,4 @@ export const forbidOperateAdminUser = async (id: string, callback: (...rest) => 
     console.log(err.toString());
     errCallback(err.toString());
   }
-}
+};
