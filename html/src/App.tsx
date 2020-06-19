@@ -48,7 +48,7 @@ const mapStateToProps = (state: any,) => {
 };
 
 type TProps = IOwnProps & ReturnType<typeof mapDispatchToProps> & ReturnType<typeof mapStateToProps>;
-const App: React.FC = () => {  
+const App: React.FC<TProps> = () => {  
   return (
     <div className="App">
       <Router history={history} >

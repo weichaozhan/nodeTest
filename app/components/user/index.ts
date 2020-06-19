@@ -3,6 +3,9 @@ import {
   STATUS_CODE,
   InitReaponse,
 } from '../../constant';
+import {
+  forbidOperateAdminUser,
+} from '../../middlewares/users'
 
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
@@ -58,20 +61,29 @@ export const removeUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
 
   let bodyRes: IAPIResponse = new InitReaponse();
-
-  try {
-    const statusSave = await UserModel.remove({
-      _id: dataReq._id,
-    }).exec();
-
-    bodyRes = {
-      code: statusSave ? STATUS_CODE.success : STATUS_CODE.undownErr,
-      msg: statusSave ? '删除成功！' : '删除失败，请重试！',
-    };
-
-  } catch(err) {
-    console.log(err);
-  }
+  
+  await new Promise((resolve) => {
+    forbidOperateAdminUser(dataReq._id, async () => {
+      try {
+        const statusSave = await UserModel.remove({
+          _id: dataReq._id,
+        }).exec();
+    
+        bodyRes = {
+          code: statusSave ? STATUS_CODE.success : STATUS_CODE.undownErr,
+          msg: statusSave ? '删除成功！' : '删除失败，请重试！',
+        };
+    
+      } catch(err) {
+        console.log(err);
+      }
+      resolve();
+    }, (err) => {
+      bodyRes.code = STATUS_CODE.undownErr;
+      bodyRes.msg = err;
+      resolve();
+    });
+  })
 
   ctx.body = bodyRes;
   next();
