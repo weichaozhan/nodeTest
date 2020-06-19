@@ -24,7 +24,7 @@ function DragTest() {
       setXDown(currentX);
     }
   }, [xDown, isDown]);
-  const onMouseUp= useCallback((e: MouseEvent) => {
+  const onMouseUp= useCallback(() => {
     setXDown(0);
     setIsDow(false);
   }, []);

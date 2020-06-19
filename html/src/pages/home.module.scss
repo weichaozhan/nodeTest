@@ -34,3 +34,16 @@
 .home-content {
   padding: 20px 20px;
 }
+
+.user-dropdown {
+  float: right;
+  color: #fff;
+  cursor: pointer;
+
+  :global(.anticon.anticon-user) {
+    margin-right: 8px;
+    font-size: 28px;
+    color: orange;
+    transform: translateY(18%);
+  }
+}

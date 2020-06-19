@@ -5,6 +5,7 @@ import { DeleteOutlined, EditOutlined, } from '@ant-design/icons';
 import styles from './index.module.scss';
 
 import { CODE_REQUEST, } from '../../constants/http';
+import { ROLE_CODE, } from '../../constants/global';
 import {
   getUsersAPI,
   registeredUserAPI,
@@ -139,13 +140,16 @@ const Users = () => {
       <Column title="邮箱" dataIndex="email" ></Column>
       <Column title="角色" dataIndex="role" render={(keyValue: number[]) => keyValue.map((item: any) => item.name).join('、')} ></Column>
       <Column title="操作" key="action" render={(record: IUser) => {
-        return <Fragment>
+        const roleCodes = record?.role?.map(r => r?.code);
+        const isAdmin = roleCodes?.includes(ROLE_CODE.admin);
+        
+        return (isAdmin && record.account === ROLE_CODE.admin) ? '' : <Fragment>
             <Button type="primary" size="small" shape="circle" icon={<EditOutlined />} onClick={() => openModal(record)} ></Button>
 
             <Popconfirm title="确认删除？" onConfirm={() => deleteUsers([record._id as string | number])} >
               <Button className="ml10" type="danger" size="small" shape="circle" icon={<DeleteOutlined />} ></Button>
             </Popconfirm>
-        </Fragment>
+        </Fragment>;
       }} ></Column>
     </Table>
 
