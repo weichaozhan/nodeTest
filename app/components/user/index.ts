@@ -5,7 +5,7 @@ import {
 } from '../../constant';
 import {
   forbidOperateAdminUser,
-} from '../../middlewares/users'
+} from '../../middlewares/users';
 
 export const saveUser = async (ctx, next) => {
   const dataReq = ctx.request.body;
@@ -83,7 +83,7 @@ export const removeUser = async (ctx, next) => {
       bodyRes.msg = err;
       resolve();
     });
-  })
+  });
 
   ctx.body = bodyRes;
   next();
