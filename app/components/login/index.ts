@@ -4,7 +4,7 @@ import {
   InitReaponse,
 } from '../../constant';
 import { validRequired, } from '../../tools';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import { signSecrect, } from '../../constant/gloabal';

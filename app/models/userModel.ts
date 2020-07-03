@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const Schema = mongoose.Schema;
 
@@ -28,8 +28,8 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.methods.speak = () => {
-  console.log('new user', this);
-};
+// userSchema.methods.speak = () => {
+//   console.log('new user', this);
+// };
 
 export default mongoose.model('user', userSchema);
