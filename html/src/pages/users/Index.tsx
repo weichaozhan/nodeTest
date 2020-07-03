@@ -120,7 +120,7 @@ const Users = () => {
       <Popconfirm title="确认删除？" disabled={usersSelected.length === 0} onConfirm={() => {
         deleteUsers(usersSelected);
       }} >
-        <Button className="ml10" type="danger" disabled={usersSelected.length === 0} >删除</Button>
+        <Button className="ml10" color="red" disabled={usersSelected.length === 0} >删除</Button>
       </Popconfirm>
     </div>
 
@@ -147,7 +147,7 @@ const Users = () => {
             <Button type="primary" size="small" shape="circle" icon={<EditOutlined />} onClick={() => openModal(record)} ></Button>
 
             <Popconfirm title="确认删除？" onConfirm={() => deleteUsers([record._id as string | number])} >
-              <Button className="ml10" type="danger" size="small" shape="circle" icon={<DeleteOutlined />} ></Button>
+              <Button className="ml10" color="red" size="small" shape="circle" icon={<DeleteOutlined />} ></Button>
             </Popconfirm>
         </Fragment>;
       }} ></Column>

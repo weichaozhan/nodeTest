@@ -201,7 +201,7 @@ function TestDB () {
           }
         }
       }} >更新</Button>
-      <Button className="ml10" type="danger" onClick={() => {
+      <Button className="ml10" color="red" onClick={() => {
         const result = window.prompt('请输入要删除的 id ！') || '';
 
         const target = parseInt(result) ? parseInt(result) : 0;

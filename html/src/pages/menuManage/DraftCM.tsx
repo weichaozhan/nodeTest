@@ -125,7 +125,7 @@ const DraftCM = () => {
   }
 
   return <div style={{ border: '1px solid orange', borderRadius: '6px', padding: '10px 20px', textAlign: 'left', }} >
-    <Button  type={editable ? 'danger' : 'primary'} icon={editable ? <DeleteOutlined/> : <EditOutlined/>} onClick={() => setEditable(!editable)} ></Button>
+    <Button color={editable ? 'red' : '#1890ff'} icon={editable ? <DeleteOutlined/> : <EditOutlined/>} onClick={() => setEditable(!editable)} ></Button>
     <Button className="mb10 ml10" type="primary" icon={<EditFilled/>} onClick={() => setVisible(true)} ></Button>
 
     <Editor
