@@ -1,4 +1,4 @@
-import React, { useState, } from 'react';
+import React, { useState, lazy, Suspense, } from 'react';
 import {
   Switch,
   Route,
@@ -11,9 +11,12 @@ import { AlignCenterOutlined, UserOutlined, } from '@ant-design/icons';
 import styles from './home.module.scss';
 
 import MenuSider from '../components/MenuSider/Index';
-import Users from './users/Index';
-import MenuManage from './menuManage/Index';
+// import Users from './users/Index';
+// import MenuManage from './menuManage/Index';
 import { NAMES_LOCALSTORAGE } from '../constants/global';
+
+const Users = lazy(() => import('./users/Index'));
+const MenuManage = lazy(() => import('./menuManage/Index'));
 
 const { Sider, Header, Content, } = Layout;
 const MenuItem = Menu.Item;
@@ -53,24 +56,30 @@ const Home = () => {
       </Header>
 
       <Content className={styles['home-content']} >
-        <Switch>
-          <Route path="/" exact render={() => <Redirect
-            to={{
-              pathname: "/users",
-              state: { from: '/', },
-            }}
-          />} >
-          </Route>
+        <Suspense fallback={<div className={styles['loading-suspense']} >
+          <div className={styles['loading-content']} >
+            loading...
+          </div>
+        </div>} >
+          <Switch>
+            <Route path="/" exact render={() => <Redirect
+              to={{
+                pathname: "/users",
+                state: { from: '/', },
+              }}
+            />} >
+            </Route>
 
-          <Route path="/users" exact >
-            <Users/>
-          </Route>
+            <Route path="/users" exact >
+              <Users/>
+            </Route>
 
-          <Route path="/menuManage" exact >
-            <MenuManage/>
-          </Route>
+            <Route path="/menuManage" exact >
+              <MenuManage/>
+            </Route>
 
-        </Switch>
+          </Switch>
+        </Suspense>
       </Content>
     </Layout>
   </Layout>
